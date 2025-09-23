@@ -88,57 +88,11 @@
             gap: 10px;
         }
 
-        .logo-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
+        .logo-image {
             width: 75px;
             height: 75px;
             margin-right: 10px;
-        }
-
-        .logo-icon-1 {
-            width: 29.72px;
-            height: 31.76px;
-            left: 33.67px;
-            top: 2.13px;
-            position: absolute;
-            transform: rotate(-270deg);
-            transform-origin: top left;
-            background: #2BA5B5;
-        }
-
-        .logo-icon-2 {
-            width: 32.89px;
-            height: 41.85px;
-            left: 0px;
-            top: 32.88px;
-            position: absolute;
-            transform: rotate(-89deg);
-            transform-origin: top left;
-            background: #1A646D;
-        }
-
-        .logo-icon-3 {
-            width: 32.89px;
-            height: 41.85px;
-            left: 42.56px;
-            top: 22.93px;
-            position: absolute;
-            transform: rotate(91deg);
-            transform-origin: top left;
-            background: #1A646D;
-        }
-
-        .logo-icon-4 {
-            width: 33.14px;
-            height: 41.85px;
-            left: 42.57px;
-            top: 22.92px;
-            position: absolute;
-            transform: rotate(-269deg);
-            transform-origin: top left;
-            background: #1A646D;
+            object-fit: contain;
         }
 
         /* Contact Button */
@@ -647,12 +601,7 @@
             
             <!-- Logo -->
             <div class="logo">
-                <div class="logo-container">
-                    <div class="logo-icon-1"></div>
-                    <div class="logo-icon-2"></div>
-                    <div class="logo-icon-3"></div>
-                    <div class="logo-icon-4"></div>
-                </div>
+                <img src="{{ asset('images/logo.png') }}" alt="EtnhoGring Logo" class="logo-image">
                 EtnhoGring
             </div>
             
@@ -790,12 +739,7 @@
         <div class="footer">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <div class="logo-container">
-                        <div class="logo-icon-1"></div>
-                        <div class="logo-icon-2"></div>
-                        <div class="logo-icon-3"></div>
-                        <div class="logo-icon-4"></div>
-                    </div>
+                    <img src="{{ asset('images/logo.png') }}" alt="EtnhoGring Logo" class="logo-image">
                     EtnhoGring
                 </div>
                 
