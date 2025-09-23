@@ -115,6 +115,7 @@
             top: 57px;
         }
 
+
         /* Hero Section */
         .hero-section {
             width: 100%;
@@ -125,6 +126,8 @@
             z-index: 10;
             margin-top: 98px;
         }
+
+        
 
         .hero-content {
             display: flex;
@@ -351,12 +354,13 @@
         }
         .content-overlay-btn {
             position: absolute;
-            right: 30px;
-            bottom: 30px;
+            right: 0;
+            bottom: 0;
+            transform: translate(16px, 70px);
         }
         .overlay-button {
             display: inline-flex;
-            padding: 16px 48px;
+            padding: 12px 24px;
             border-radius: 8px;
             outline: 1px #1A646D solid;
             outline-offset: -1px;
@@ -365,16 +369,26 @@
             gap: 10px;
             background: #1A646D;
             cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
         }
+        .overlay-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            background: #1f6f78;
+        }
+        .overlay-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+        }
+        .overlay-button:focus { outline: none; }
         .overlay-button-text {
-            width: 159px;
-            height: 34px;
             text-align: center;
             color: white;
-            font-size: 20px;
+            font-size: 14px;
             font-family: Roboto;
             font-weight: 700;
-            line-height: 30px;
+            line-height: 21px;
             word-wrap: break-word;
         }
 
@@ -662,6 +676,7 @@
             background: transparent;
             cursor: pointer;
             margin-top: 12px;
+            text-decoration: none;
         }
         .content-outline-button-text {
             text-align: center;
@@ -722,6 +737,7 @@
             .content-overlay-btn {
                 position: static;
                 margin-top: 12px;
+                transform: none;
                 display: flex;
                 justify-content: flex-end;
             }
@@ -760,6 +776,32 @@
             animation: fadeInUp 1s ease-out;
             animation-delay: 0.4s;
         }
+
+        /* Sidebar (card 1/4 page width) */
+        .sidebar {
+            position: fixed;
+            top: 98px; /* below header */
+            left: 0;
+            width: 25vw; /* 1/4 of page width */
+            max-width: 420px;
+            min-width: 280px;
+            height: calc(100vh - 98px);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 900; /* under header (1000), above content (10) */
+            padding: 20px;
+        }
+        .sidebar.open { transform: translateX(0); }
+        .sidebar-inner { display: flex; flex-direction: column; gap: 16px; }
+        .sidebar-title { color: #333333; font-size: 20px; font-family: Raleway; font-weight: 700; }
+        .sidebar-list { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+        .sidebar-item { display: flex; align-items: center; gap: 12px; padding: 8px 6px; border-radius: 10px; transition: background 0.2s ease; cursor: pointer; }
+        .sidebar-item:hover { background: rgba(0,0,0,0.04); }
+        .sidebar-item img { width: 42px; height: 42px; object-fit: contain; }
+        .sidebar-item span { color: #333333; font-size: 16px; font-family: Raleway; font-weight: 600; line-height: 22px; }
             </style>
     </head>
 <body>
@@ -777,11 +819,26 @@
             
             <!-- Logo -->
             <div class="logo">
-                <img src="{{ asset('images/logo.png') }}" alt="EtnhoGring Logo" class="logo-image">
+                <img src="{{ asset('images/logo.svg') }}" alt="EtnhoGring Logo" class="logo-image">
                 EtnhoGring
             </div>
-            
         </div>
+
+        <!-- Sidebar (slides from left) -->
+        <aside id="sidebar" class="sidebar" aria-hidden="true">
+            <div class="sidebar-inner">
+                <div class="sidebar-list">
+                    <div class="sidebar-item" onclick="window.location.href='{{ route('galeri.budaya') }}'">
+                        <img src="{{ asset('images/galerilogo_budaya.png') }}" alt="Galeri Budaya">
+                        <span>Galeri Budaya</span>
+                    </div>
+                    <div class="sidebar-item" onclick="window.location.href='{{ route('dokumentasi.tradisi') }}'">
+                        <img src="{{ asset('images/dokum_tradisi.png') }}" alt="Dokumentasi Tradisi">
+                        <span>Dokumentasi Tradisi</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
         
         <!-- Hero Section -->
         <div class="hero-section">
@@ -848,9 +905,9 @@
                     </div>
                     <div class="content-date">20 Juni 2025</div>
                     <div class="content-overlay-btn">
-                        <div class="overlay-button">
-                            <div class="overlay-button-text">Selengkapnya</div>
-                        </div>
+                        <a class="overlay-button" href="{{ route('galeri.budaya') }}">
+                            <span class="overlay-button-text">Selengkapnya</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -871,9 +928,9 @@
                     Desa Tlemang, yang terletak di Kabupaten Lamongan, Jawa Timur, dikenal tidak hanya karena keindahan alamnya, tetapi juga karena kekayaan tradisi yang diwariskan secara turun-temurun. Salah satu tradisi yang masih lestari hingga kini adalah Mendhak Sanggring, sebuah acara adat yang menjadi simbol kebersamaan, religiusitas, dan penghormatan terhadap warisan leluhur. <br/>
                     Acara ini digelar sebagai bentuk rasa syukur masyarakat atas karunia yang diberikan Tuhan Yang Maha Esa sekaligus menjadi media mempererat hubungan sosial. “Mendhak” sendiri memiliki makna mengundang atau mengumpulkan, sedangkan “Sanggring” merujuk pada salah satu jenis hidangan khas yang disajikan dalam tradisi ini. Kombinasi keduanya melahirkan ritual yang unik, di mana masyarakat saling berbagi makanan, doa, dan kebersamaan dalam suasana penuh makna.
                 </div>
-                <button class="content-outline-button" type="button">
+                <a class="content-outline-button" href="{{ route('dokumentasi.tradisi') }}">
                     <span class="content-outline-button-text">Selengkapnya</span>
-                </button>
+                </a>
             </div>
         </div>
 
@@ -923,7 +980,7 @@
         <div class="footer">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <img src="{{ asset('images/logo.png') }}" alt="EtnhoGring Logo" class="logo-image">
+                    <img src="{{ asset('images/logo.svg') }}" alt="EtnhoGring Logo" class="logo-image">
                     EtnhoGring
                 </div>
                 
@@ -992,6 +1049,27 @@
                 alert('Media sosial akan segera tersedia!');
             });
         });
+
+        // Toggle sidebar via hamburger (garis 3)
+        (function() {
+            const hamburgers = document.querySelectorAll('.header .hamburger');
+            const sidebar = document.getElementById('sidebar');
+            function toggleSidebar() {
+                const opened = sidebar.classList.toggle('open');
+                sidebar.setAttribute('aria-hidden', opened ? 'false' : 'true');
+            }
+            hamburgers.forEach(h => h.addEventListener('click', toggleSidebar));
+
+            // Close when clicking outside sidebar
+            document.addEventListener('click', (e) => {
+                const isHamburger = e.target.classList.contains('hamburger');
+                if (!isHamburger && !sidebar.contains(e.target) && sidebar.classList.contains('open')) {
+                    sidebar.classList.remove('open');
+                    sidebar.setAttribute('aria-hidden', 'true');
+                }
+            });
+        })();
+        
     </script>
     </body>
 </html>
