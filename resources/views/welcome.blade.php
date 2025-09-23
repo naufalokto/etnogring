@@ -349,6 +349,34 @@
             width: 617px;
             max-width: 617px;
         }
+        .content-overlay-btn {
+            position: absolute;
+            right: 30px;
+            bottom: 30px;
+        }
+        .overlay-button {
+            display: inline-flex;
+            padding: 16px 48px;
+            border-radius: 8px;
+            outline: 1px #1A646D solid;
+            outline-offset: -1px;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            background: #1A646D;
+            cursor: pointer;
+        }
+        .overlay-button-text {
+            width: 159px;
+            height: 34px;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+            font-family: Roboto;
+            font-weight: 700;
+            line-height: 30px;
+            word-wrap: break-word;
+        }
 
         .content-title {
             margin-bottom: 20px;
@@ -691,6 +719,12 @@
                 max-width: none;
                 margin: 0 16px;
             }
+            .content-overlay-btn {
+                position: static;
+                margin-top: 12px;
+                display: flex;
+                justify-content: flex-end;
+            }
 
             /* Responsive for content-section--side */
             .content-section--side {
@@ -813,6 +847,11 @@
                         E-Layanan adalah sistem pelayanan berbasis digital yang memungkinkan masyarakat mengakses berbagai layanan administrasi desa secara mudah, cepat, dan transparan
                     </div>
                     <div class="content-date">20 Juni 2025</div>
+                    <div class="content-overlay-btn">
+                        <div class="overlay-button">
+                            <div class="overlay-button-text">Selengkapnya</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
