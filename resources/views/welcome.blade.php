@@ -89,40 +89,12 @@
         }
 
         .logo-image {
-            width: 75px;
-            height: 75px;
+            width: 60px;
+            height: 60px;
             margin-right: 10px;
             object-fit: contain;
         }
 
-        /* Contact Button */
-        .contact-btn {
-            width: 66px;
-            height: 65.12px;
-            right: 106px;
-            top: 16px;
-            position: absolute;
-            background: #2BA5B5;
-            border-radius: 9999px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .contact-btn-icon-1 {
-            width: 15.23px;
-            height: 15.63px;
-            background: white;
-            border-radius: 9999px;
-        }
-
-        .contact-btn-icon-2 {
-            width: 31.48px;
-            height: 15.63px;
-            background: white;
-            border-radius: 9999px;
-        }
 
         /* Hamburger Menu */
         .hamburger {
@@ -164,8 +136,17 @@
         .hero-icon {
             width: 38px;
             height: 37.59px;
-            background: #2C2C2C;
-            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-icon-inner {
+            width: 38px;
+            height: 37.59px;
+            left: 0px;
+            top: 0px;
+            position: absolute;
+            background: url('{{ asset('images/star.svg.svg') }}') no-repeat center center / contain;
         }
 
         .hero-title {
@@ -180,6 +161,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            justify-content: center;
         }
 
         .hero-title-desa {
@@ -188,6 +170,7 @@
             font-family: Poppins;
             font-weight: 800;
             line-height: 79.20px;
+            word-wrap: break-word;
         }
 
         .hero-title-tlemang {
@@ -196,6 +179,7 @@
             font-family: Poppins;
             font-weight: 800;
             line-height: 79.20px;
+            word-wrap: break-word;
         }
 
         .hero-title-kecamatan {
@@ -204,6 +188,7 @@
             font-family: Poppins;
             font-weight: 800;
             line-height: 79.20px;
+            word-wrap: break-word;
         }
 
         .hero-description {
@@ -223,6 +208,9 @@
             cursor: pointer;
             transition: all 0.3s ease;
             border: none;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .hero-button:hover {
@@ -236,6 +224,11 @@
             font-family: Poppins;
             font-weight: 700;
             line-height: 17.61px;
+            word-wrap: break-word;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         /* Gallery Section */
@@ -244,19 +237,23 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 50px 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            display: flex;
             gap: 30px;
             position: relative;
             z-index: 10;
         }
 
         .gallery-item {
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: transparent;
+            border-radius: 0;
+            padding: 0;
+            text-align: left;
+            box-shadow: none;
+            min-width: 300px;
+            flex: 0 0 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .gallery-image {
@@ -264,24 +261,52 @@
             height: 200px;
             object-fit: cover;
             border-radius: 12px;
-            margin-bottom: 15px;
+        }
+
+        .gallery-title {
+            color: #333333;
+            font-size: 24px;
+            font-family: Raleway;
+            font-weight: 700;
+            line-height: 31.99px;
+            word-wrap: break-word;
+        }
+
+        .gallery-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
         .gallery-button {
-            padding: 16px 32px;
+            padding: 12px 36px;
             background: #2BA5B5;
+            box-shadow: 4px 10px 10px rgba(0, 0, 0, 0.25);
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             border: none;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
             color: white;
-            font-size: 16px;
-            font-weight: 700;
+            height: 40px;
         }
 
         .gallery-button:hover {
             background: #258D9B;
             transform: translateY(-2px);
+        }
+
+        .gallery-button-text {
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            font-family: Roboto;
+            font-weight: 700;
+            line-height: 28px;
+            word-wrap: break-word;
         }
 
         /* Content Section */
@@ -292,23 +317,37 @@
             padding: 50px 20px;
             position: relative;
             z-index: 10;
+            display: grid;
+            grid-template-columns: 756px;
+            justify-content: start;
+        }
+
+        .content-image-box {
+            width: 100%;
+            height: 425px;
+            border-radius: 16px;
+            overflow: visible;
+            position: relative;
         }
 
         .content-image {
             width: 100%;
-            height: 400px;
+            height: 120%;
             object-fit: cover;
             border-radius: 16px;
-            margin-bottom: 20px;
+            display: block;
         }
 
         .content-overlay {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.80);
             border-radius: 16px;
             padding: 30px;
-            margin-top: -50px;
-            position: relative;
+            position: absolute;
             z-index: 20;
+            top: 29px;
+            right: -400px;
+            width: 617px;
+            max-width: 617px;
         }
 
         .content-title {
@@ -363,6 +402,7 @@
             font-size: 20px;
             font-family: Roboto;
             font-weight: 500;
+            line-height: 30px;
             margin-top: 15px;
         }
 
@@ -527,6 +567,84 @@
             line-height: 24px;
         }
 
+        /* Content Section 2 (side text, no card) */
+        .content-section--side {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 20px;
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 756px 420px;
+            gap: 16px;
+            align-items: start;
+            justify-content: center;
+        }
+        .content-text-area {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .content-badge {
+            color: #333333;
+            font-size: 12px;
+            font-family: Roboto;
+            font-weight: 700;
+            line-height: 18px;
+            word-wrap: break-word;
+        }
+        .content-heading {
+            display: block;
+        }
+        .content-heading-italic {
+            color: #333333;
+            font-size: 30px;
+            font-family: Raleway;
+            font-style: italic;
+            font-weight: 400;
+            line-height: 35px;
+        }
+        .content-heading-strong {
+            color: #333333;
+            font-size: 30px;
+            font-family: Raleway;
+            font-weight: 700;
+            line-height: 35px;
+        }
+        .content-paragraph-justified {
+            text-align: justify;
+            color: white;
+            font-size: 20px;
+            font-family: Roboto;
+            font-weight: 500;
+            line-height: 30px;
+            word-wrap: break-word;
+            margin-top: 8px;
+        }
+        .content-outline-button {
+            display: inline-flex;
+            padding: 16px 48px;
+            border-radius: 8px;
+            outline: 1px #1A646D solid;
+            outline-offset: -1px;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+        .content-outline-button-text {
+            text-align: center;
+            color: #1A646D;
+            font-size: 14px;
+            font-family: Roboto;
+            font-weight: 700;
+            line-height: 21px;
+            word-wrap: break-word;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .hero-title-desa,
@@ -556,6 +674,30 @@
             
             .contact-btn {
                 right: 20px;
+            }
+
+            /* Stack content and keep overlay fully inside on small screens */
+            .content-section {
+                grid-template-columns: 1fr;
+            }
+            .content-image-box {
+                overflow: hidden;
+            }
+            .content-overlay {
+                position: relative;
+                top: -40px;
+                right: auto;
+                width: auto;
+                max-width: none;
+                margin: 0 16px;
+            }
+
+            /* Responsive for content-section--side */
+            .content-section--side {
+                grid-template-columns: 1fr;
+            }
+            .content-paragraph-justified {
+                color: #333333;
             }
         }
 
@@ -605,20 +747,13 @@
                 EtnhoGring
             </div>
             
-            <!-- Contact Button -->
-            <div class="contact-btn">
-                <div class="contact-btn-icon-1"></div>
-                <div class="contact-btn-icon-2"></div>
-            </div>
         </div>
         
         <!-- Hero Section -->
         <div class="hero-section">
             <div class="hero-content">
                 <div class="hero-icon">
-                    <div class="hero-icon-inner">
-                        <div class="hero-icon-bg"></div>
-                    </div>
+                    <div class="hero-icon-inner"></div>
                 </div>
                 
                 <div class="hero-text-content">
@@ -642,55 +777,65 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Gallery Section -->
         <div class="gallery-section">
-            <div class="gallery-item gallery-item-1">Galeri Budaya</div>
-            <img class="gallery-image gallery-image-1" src="https://placehold.co/346x282" alt="Galeri Budaya">
-            <div class="gallery-button gallery-button-1">
-                <div class="gallery-button-text">Lanjutkan</div>
+            <div class="gallery-item">
+                <img class="gallery-image" src="{{ asset('images/galeri_budaya.png') }}" alt="Galeri Budaya">
+                <div class="gallery-header">
+                    <div class="gallery-title">Galeri Budaya</div>
+                    <div class="gallery-button">
+                        <div class="gallery-button-text">Lanjutkan</div>
+                    </div>
+                </div>
             </div>
-            
-            <div class="gallery-item gallery-item-2">Dokumentasi Tradisi</div>
-            <img class="gallery-image gallery-image-2" src="https://placehold.co/346x282" alt="Dokumentasi Tradisi">
-            <div class="gallery-button gallery-button-2">
-                <div class="gallery-button-text">Lanjutkan</div>
-            </div>
-            
-            <div class="gallery-item gallery-item-3">Promosi Desa Wisata</div>
-            <img class="gallery-image gallery-image-3" src="https://placehold.co/346x282" alt="Promosi Desa Wisata">
-            <div class="gallery-button gallery-button-3">
-                <div class="gallery-button-text">Lanjutkan</div>
-            </div>
-            
-            <div class="gallery-item gallery-item-4">Literasi Digital</div>
-            <img class="gallery-image gallery-image-4" src="https://placehold.co/346x282" alt="Literasi Digital">
-            <div class="gallery-button gallery-button-4">
-                <div class="gallery-button-text">Lanjutkan</div>
+            <div class="gallery-item">
+                <img class="gallery-image" src="{{ asset('images/dokumentasi_tradisi.png') }}" alt="Dokumentasi Tradisi">
+                <div class="gallery-header">
+                    <div class="gallery-title">Dokumentasi Tradisi</div>
+                    <div class="gallery-button">
+                        <div class="gallery-button-text">Lanjutkan</div>
+                    </div>
+                </div>
             </div>
         </div>
-        
+
         <!-- Content Section -->
         <div class="content-section">
-            <img class="content-image" src="https://placehold.co/756x425" alt="Desa Tlemang">
+            <div class="content-image-box">
+                <img class="content-image" src="{{ asset('images/tentang_desa.jpg') }}" alt="Desa Tlemang">
+                <div class="content-overlay">
+                    <div class="content-title">
+                        <span class="content-title-italic">Galeri Budaya<br/></span>
+                        <span class="content-title-normal">Desa Tlemang Kecamatan Ngimbang</span>
+                    </div>
+                    <div class="content-description">
+                        E-Layanan adalah sistem pelayanan berbasis digital yang memungkinkan masyarakat mengakses berbagai layanan administrasi desa secara mudah, cepat, dan transparan
+                    </div>
+                    <div class="content-date">20 Juni 2025</div>
+                </div>
+            </div>
         </div>
-        
-        <div class="content-overlay">
-            <div class="content-title">
-                <span class="content-title-italic">Galeri Budaya<br/></span>
-                <span class="content-title-normal">Desa Tlemang Kecamatan Ngimbang</span>
+
+        <!-- Content Section 2 (image left, text right; no card) -->
+        <div class="content-section--side">
+            <div class="content-image-box">
+                <img class="content-image" src="{{ asset('images/dokumen_2.png') }}" alt="Dokumen 2">
             </div>
-            
-            <div class="content-description">
-                E-Layanan adalah sistem pelayanan berbasis digital yang memungkinkan masyarakat mengakses berbagai layanan administrasi desa secara mudah, cepat, dan transparan
+            <div class="content-text-area">
+                <div class="content-badge">Potensi Desa</div>
+                <div class="content-heading">
+                    <span class="content-heading-italic">Dokumentasi Tradisi -</span>
+                    <span class="content-heading-strong"> Desa Tlemang, Menggelar acar adat “Mendhak Sanggring”</span>
+                </div>
+                <div class="content-paragraph-justified">
+                    Desa Tlemang, yang terletak di Kabupaten Lamongan, Jawa Timur, dikenal tidak hanya karena keindahan alamnya, tetapi juga karena kekayaan tradisi yang diwariskan secara turun-temurun. Salah satu tradisi yang masih lestari hingga kini adalah Mendhak Sanggring, sebuah acara adat yang menjadi simbol kebersamaan, religiusitas, dan penghormatan terhadap warisan leluhur. <br/>
+                    Acara ini digelar sebagai bentuk rasa syukur masyarakat atas karunia yang diberikan Tuhan Yang Maha Esa sekaligus menjadi media mempererat hubungan sosial. “Mendhak” sendiri memiliki makna mengundang atau mengumpulkan, sedangkan “Sanggring” merujuk pada salah satu jenis hidangan khas yang disajikan dalam tradisi ini. Kombinasi keduanya melahirkan ritual yang unik, di mana masyarakat saling berbagi makanan, doa, dan kebersamaan dalam suasana penuh makna.
+                </div>
+                <button class="content-outline-button" type="button">
+                    <span class="content-outline-button-text">Selengkapnya</span>
+                </button>
             </div>
-            
-            <div class="content-button">
-                <div class="content-button-text">Selengkapnya</div>
-            </div>
-            
-            <div class="content-date">20 Juni 2025</div>
-            <div class="content-category">Layanan Administrasi</div>
         </div>
 
         <!-- News Section -->
