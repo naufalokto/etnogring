@@ -75,8 +75,8 @@
         }
 
         .logo {
-            left: 174.56px;
-            top: 29.09px;
+            left: 126px;
+            top: 22px;
             position: absolute;
             color: #333333;
             font-size: 33.70px;
