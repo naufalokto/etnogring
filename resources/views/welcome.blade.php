@@ -836,6 +836,10 @@
                         <img src="{{ asset('images/dokum_tradisi.png') }}" alt="Dokumentasi Tradisi">
                         <span>Dokumentasi Tradisi</span>
                     </div>
+                    <div class="sidebar-item" onclick="window.location.href='{{ route('admin.login') }}'">
+                        <img src="{{ asset('images/logo.svg') }}" alt="Admin Login">
+                        <span>Admin Login</span>
+                    </div>
                 </div>
             </div>
         </aside>

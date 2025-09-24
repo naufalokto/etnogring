@@ -13,3 +13,7 @@ Route::get('/galeri-budaya', function () {
 Route::get('/dokumentasi-tradisi', function () {
     return view('dokumentasi-tradisi');
 })->name('dokumentasi.tradisi');
+
+Route::get('/admin/login', function () {
+    return view('loginadmin');
+})->name('admin.login');
