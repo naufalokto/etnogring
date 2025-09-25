@@ -940,44 +940,22 @@
 
         <!-- News Section -->
         <div class="news-section">
+            <?php $galeriItems = \App\Models\GaleriBudaya::orderByDesc('created_at')->take(3)->get(); ?>
+            <?php foreach ($galeriItems as $item): ?>
+            <?php $img = $item->foto ? asset('images/gallery/'.basename($item->foto)) : 'https://placehold.co/405x322'; ?>
             <div class="news-item">
-                <img class="news-image" src="https://placehold.co/405x322" alt="Alokasi Perencanaan Anggaran Dana Desa 2024">
+                <img class="news-image" src="<?php echo e($img); ?>" alt="<?php echo e($item->title); ?>">
                 <div class="news-content">
                     <div class="news-meta">
-                        <div class="news-category">Dana Desa</div>
-                        <div class="news-date">13 Januari 2025</div>
+                        <div class="news-category"><?php echo e(ucfirst($item->jenis)); ?></div>
+                        <div class="news-date"><?php echo e(optional($item->created_at)->format('d F Y')); ?></div>
                     </div>
-                    <div class="news-title">Alokasi Perencanaan Anggaran Dana Desa 2024</div>
-                    <div class="news-description">Pemabnguan desa menjadi program prioritas pemerintah dalam mendukung pembangunan nasional, melalui rencana strategis pemerintah.</div>
-                    <div class="news-read-more">Read More...</div>
+                    <div class="news-title"><?php echo e($item->title); ?></div>
+                    <div class="news-description"><?php echo e(Str::limit($item->isi_kegiatan, 120)); ?></div>
+                    <a href="<?php echo e(route('galeri.budaya')); ?>?highlight=<?php echo e($item->id); ?>" class="news-read-more">Read More...</a>
                 </div>
             </div>
-            
-            <div class="news-item">
-                <img class="news-image" src="https://placehold.co/405x322" alt="Upaya Pengembangan Wisata Religi">
-                <div class="news-content">
-                    <div class="news-meta">
-                        <div class="news-category">DEVELOPMENT</div>
-                        <div class="news-date">18 Juni 2024</div>
-                    </div>
-                    <div class="news-title">Upaya Pengembangan Wisata Religi</div>
-                    <div class="news-description">Medhak sanggring adalah destinasi wisata religi yang berada di Desa Tlemang Kecamatan Ngimbang Kabupaten Lamongan.</div>
-                    <div class="news-read-more">Read More...</div>
-                </div>
-            </div>
-            
-            <div class="news-item">
-                <img class="news-image" src="https://placehold.co/405x322" alt="Sinergitas dan Kolaborasi">
-                <div class="news-content">
-                    <div class="news-meta">
-                        <div class="news-category">Kolaborasi</div>
-                        <div class="news-date">3 Juli 2025</div>
-                    </div>
-                    <div class="news-title">Sinergitas dan Kolaborasi Bersama pemerintah desa bersama UNESA</div>
-                    <div class="news-description">Dalam upaya memperkuat tata kelola pemerintahan desa yang modern, inovatif, dan berbasis digital pendampingan telah sukses diselenggarakan di Balai Desa Tlemang.</div>
-                    <div class="news-read-more">Read More...</div>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
 
         <!-- Footer -->
@@ -1042,11 +1020,6 @@
             });
         });
         
-        document.querySelectorAll('.news-read-more').forEach(link => {
-            link.addEventListener('click', function() {
-                alert('Artikel lengkap akan segera tersedia!');
-            });
-        });
         
         document.querySelectorAll('.social-icon').forEach(icon => {
             icon.addEventListener('click', function() {

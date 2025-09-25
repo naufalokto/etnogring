@@ -29,7 +29,7 @@ class DokumentasiTradisiController extends Controller
             'judul' => 'required|string|max:255',
             'jenis' => 'required|string|in:development,budaya,kolaborasi,aktivitas,umkm',
             'link_dokumentasi' => 'nullable|string|max:255',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000' 
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif' 
         ], [
             'jenis.required' => 'Jenis is required.',
             'jenis.string' => 'Jenis must be text.',
@@ -40,7 +40,6 @@ class DokumentasiTradisiController extends Controller
             'judul.max' => 'Title cannot exceed 255 characters.',
             'foto.image' => 'File must be an image.',
             'foto.mimes' => 'Image must be in JPEG, PNG, JPG, or GIF format.',
-            'foto.max' => 'Image size cannot exceed 5MB.'
         ]);
         
         $dokumentasi = new DokumentasiTradisi();

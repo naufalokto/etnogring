@@ -40,6 +40,73 @@
             .meta .tag { color: #333; font-size: 11px; font-weight: 700; text-transform: capitalize; }
             .meta .date { color: #999; font-size: 11px; font-weight: 500; }
             .card-title { color: #333; font-size: 20px; font-family: Raleway; font-weight: 700; line-height: 28px; }
+            .card-link { margin-top: 12px; }
+            .card-link a { color: #FF0000; font-size: 14px; font-family: Roboto; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s ease; }
+            .card-link a:hover { color: #CC0000; text-decoration: underline; }
+            .card-link a::before { content: "▶"; font-size: 12px; }
+            
+            /* Footer styles */
+            .footer {
+                width: 100%;
+                background: white;
+                padding: 40px 20px;
+                position: relative;
+                z-index: 10;
+            }
+
+            .footer-content {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+
+            .footer-logo {
+                color: #333333;
+                font-size: 33.70px;
+                font-family: Raleway;
+                font-weight: 800;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .footer-social {
+                display: flex;
+                gap: 20px;
+                align-items: center;
+            }
+
+            .social-icon {
+                width: 40px;
+                height: 40px;
+                background: #2BA5B5;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 14px;
+                font-family: Roboto;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .social-icon:hover {
+                background: #258D9B;
+                transform: translateY(-2px);
+            }
+
+            .footer-copyright {
+                color: #150E06;
+                font-size: 16px;
+                font-family: Raleway;
+                font-weight: 400;
+                line-height: 24px;
+            }
         </style>
     </head>
     <body>
@@ -74,11 +141,11 @@
         </aside>
         <div class="page-offset"></div>
 
-        <div class="container">
+        <div class="container" style="margin-bottom: 200px;">
             <div class="title">Dokumentasi Tradisi Dan Promosi Desa Wisata</div>
             <div class="subtitle">Konten kreativ desa, layanan desa, video edukasi, Info desa wisata Desa Tlemang, Kecamatan ngimbang, Kabupaten Lamongan Provinsi Jawa Timur </div>
 
-            <div class="grid">
+            <div class="grid" style="margin-bottom: 200px;">
                 <?php $docs = \App\Models\DokumentasiTradisi::orderByDesc('created_at')->get(); ?>
                 <?php foreach ($docs as $doc): ?>
                 <?php $img = $doc->foto ? asset('images/news/'.basename($doc->foto)) : 'https://placehold.co/400x360'; ?>
@@ -87,9 +154,35 @@
                     <div style="padding:16px;">
                         <div class="meta"><div class="tag"><?php echo e($doc->jenis); ?></div><div class="date"><?php echo e(optional($doc->created_at)->format('d F Y')); ?></div></div>
                         <div class="card-title"><?php echo e($doc->judul); ?></div>
+                        <?php if($doc->link_dokumentasi): ?>
+                        <div class="card-link">
+                            <a href="<?php echo e($doc->link_dokumentasi); ?>" target="_blank" rel="noopener noreferrer">
+                                Tonton di YouTube
+                            </a>
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <?php endforeach; ?>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="<?php echo e(asset('images/logo.svg')); ?>" alt="EtnhoGring Logo" class="logo-image">
+                    EtnhoGring
+                </div>
+                
+                <div class="footer-social">
+                    <div class="social-icon">FB</div>
+                    <div class="social-icon">IG</div>
+                    <div class="social-icon">LN</div>
+                    <div class="social-icon">YT</div>
+                </div>
+                
+                <div class="footer-copyright">© 2025. All Right Reserved</div>
             </div>
         </div>
 

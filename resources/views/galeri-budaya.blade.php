@@ -28,6 +28,78 @@
             .sidebar-item:hover { background: rgba(0,0,0,0.04); }
             .sidebar-item img { width: 42px; height: 42px; object-fit: contain; }
             .sidebar-item span { color: #333333; font-size: 16px; font-family: Raleway; font-weight: 600; line-height: 22px; }
+            
+            
+            /* Footer styles */
+            .footer {
+                width: 100%;
+                background: white;
+                padding: 40px 20px;
+                position: relative;
+                z-index: 10;
+            }
+
+            .footer-content {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+
+            .footer-logo {
+                color: #333333;
+                font-size: 33.70px;
+                font-family: Raleway;
+                font-weight: 800;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .footer-social {
+                display: flex;
+                gap: 20px;
+                align-items: center;
+            }
+
+            .social-icon {
+                width: 40px;
+                height: 40px;
+                background: #2BA5B5;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 14px;
+                font-family: Roboto;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .social-icon:hover {
+                background: #258D9B;
+                transform: translateY(-2px);
+            }
+
+            .footer-copyright {
+                color: #150E06;
+                font-size: 16px;
+                font-family: Raleway;
+                font-weight: 400;
+                line-height: 24px;
+            }
+            
+            /* Mobile responsiveness */
+            @media (max-width: 768px) {
+                .modal { padding: 10px 0; }
+                .modal-content { width: 100%; margin: 0; border-radius: 0; min-height: 100vh; }
+                .modal-body { padding: 15px; padding-bottom: 150px; }
+                .modal-header { padding: 15px; }
+            }
         </style>
     </head>
     <body>
@@ -62,9 +134,16 @@
         </aside>
         <div class="page-offset"></div>
 
-        <div style="width: 100%; height: 2700px; position: relative; background: #FAFAFA; overflow: hidden">
-            <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px;">
-                <?php $latest = \App\Models\GaleriBudaya::orderByDesc('created_at')->take(1)->first(); ?>
+        <div style="width: 100%; height: 2700px; position: relative; background: #FAFAFA; overflow: hidden; padding-bottom: 200px;">
+            <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; margin-bottom: 200px;">
+                <?php 
+                    $highlightId = request('highlight');
+                    if ($highlightId) {
+                        $latest = \App\Models\GaleriBudaya::find($highlightId);
+                    } else {
+                        $latest = \App\Models\GaleriBudaya::orderByDesc('created_at')->take(1)->first();
+                    }
+                ?>
                 <div style="display:flex; gap:24px; align-items:center; color:#333333; font-family:Roboto; line-height:30px; margin-bottom:8px;">
                     <div style="font-weight:700; font-size:20px; text-transform:uppercase;"><?php echo e(($latest->jenis ?? 'Budaya')); ?></div>
                     <div style="color:#999999; font-weight:500; font-size:20px;"><?php echo e(optional($latest?->created_at)->format('d F Y') ?? '16 Maret 2024'); ?></div>
@@ -98,7 +177,7 @@
                     <a href="#" style="padding:16px 48px; background:#59C4D2; border-radius:8px; color:white; font-size:20px; font-family:Roboto; font-weight:700; line-height:30px; text-decoration:none;">View All</a>
                 </div>
 
-                <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:24px; margin-top:24px;">
+                <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:24px; margin-top:24px; margin-bottom: 200px;">
                     <?php $items = \App\Models\GaleriBudaya::orderByDesc('created_at')->skip(1)->take(9)->get(); ?>
                     <?php foreach ($items as $item): ?>
                     <?php
@@ -120,7 +199,7 @@
                             </div>
                             <div style="color:#333333; font-size:24px; font-family:Raleway; font-weight:700; line-height:31.99px; text-transform:capitalize;"><?php echo e($item->title); ?></div>
                             <div style="margin-top:8px; color:#666666; font-size:16px; font-family:Roboto; font-weight:400; line-height:24px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical;"><?php echo e(Str::limit($item->isi_kegiatan, 160)); ?></div>
-                            <div style="margin-top:8px; color:#1A646D; font-size:18px; font-family:Roboto; font-weight:700; text-decoration:underline;">Read More...</div>
+                            <a href="?highlight=<?php echo e($item->id); ?>" style="margin-top:8px; color:#1A646D; font-size:18px; font-family:Roboto; font-weight:700; text-decoration:underline; cursor:pointer; display:block;">Read More...</a>
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -128,6 +207,8 @@
             </div>
             
         </div>
+
+
 
         <script>
             // Toggle sidebar with header hamburgers
@@ -147,6 +228,8 @@
                     }
                 });
             })();
+
+
         </script>
     </body>
 </html>
