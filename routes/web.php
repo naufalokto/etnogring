@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DokumentasiTradisiController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\GaleriController;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 
@@ -11,26 +12,30 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Galeri Budaya
+// Galeri Budaya (public page)
 Route::get('/galeri-budaya', function () {
     return view('galeri-budaya');
 })->name('galeri.budaya');
-Route::get('/galeri-budaya-insert',[GaleriController::class, 'index']);
-Route::post('/galeri-budaya-insert', [GaleriController::class, 'store'])->name('galeri-budaya.store');
 
-//Dokumentasi Tradisi
+// Galeri Budaya (admin insert)
+Route::get('/galeri-budaya-insert',[GaleriController::class, 'index'])->middleware('auth');
+Route::post('/galeri-budaya-insert', [GaleriController::class, 'store'])->middleware('auth')->name('galeri-budaya.store');
+
+// Dokumentasi Tradisi (public page)
 Route::get('/dokumentasi-tradisi', function () {
     return view('dokumentasi-tradisi');
 })->name('dokumentasi.tradisi');
-Route::get('/dokumentasi-tradisi', [DokumentasiTradisiController::class, 'getDokumentasiTradisi'])->name('dokumentasi.tradisi');
-Route::get('/dokumentasi-tradisi-insert',[DokumentasiTradisiController::class, 'index']);
-Route::post('/dokumentasi-tradisi-insert', [DokumentasiTradisiController::class, 'store'])->name('dokumentasi-tradisi.store');
 
+// Dokumentasi Tradisi (admin insert)
+Route::get('/dokumentasi-tradisi-insert',[DokumentasiTradisiController::class, 'index'])->middleware('auth');
+Route::post('/dokumentasi-tradisi-insert', [DokumentasiTradisiController::class, 'store'])->middleware('auth')->name('dokumentasi-tradisi.store');
 
+// Optional: JSON data endpoints (if needed by FE async)
+Route::get('/api/dokumentasi-tradisi', [DokumentasiTradisiController::class, 'getDokumentasiTradisi']);
 
-//Login
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login')->middleware(VerifyCsrfToken::class);
-Route::post('/login', [LoginController::class, 'login'])->withoutMiddleware(VerifyCsrfToken::class);
+// Login
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 Route::get('/admin/login', function () {
     return view('loginadmin');

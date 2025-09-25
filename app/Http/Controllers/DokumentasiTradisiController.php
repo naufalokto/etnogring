@@ -27,13 +27,13 @@ class DokumentasiTradisiController extends Controller
     public function store(Request $request) {
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
-            'jenis' => 'required|string|in:Tradisi,Budaya,Aktivitas,Travel',
+            'jenis' => 'required|string|in:development,budaya,kolaborasi,aktivitas,umkm',
             'link_dokumentasi' => 'nullable|string|max:255',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000' 
         ], [
             'jenis.required' => 'Jenis is required.',
             'jenis.string' => 'Jenis must be text.',
-            'jenis.in' => 'Jenis must be Tradisi, Budaya, Aktivitas, or Travel.',
+            'jenis.in' => 'Jenis must be one of: development, budaya, kolaborasi, aktivitas, umkm.',
             'link_dokumentasi.string' => 'Link dokumentasi must be text.',
             'link_dokumentasi.max' => 'Link dokumentasi cannot exceed 255 characters.',
             'judul.string' => 'Title must be text.',
@@ -46,11 +46,9 @@ class DokumentasiTradisiController extends Controller
         $dokumentasi = new DokumentasiTradisi();
         $dokumentasi->judul = $validated['judul'];
         $dokumentasi->jenis = $validated['jenis'];
-        $dokumentasi->link_dokumentasi = $validated['link_dokumentasi'];
-        $dokumentasi->foto = $validated['foto'];
+        $dokumentasi->link_dokumentasi = $validated['link_dokumentasi'] ?? null;
         
-        
-         if ($request->hasFile('foto')) {
+        if ($request->hasFile('foto')) {
             $file = $request->file('foto');
             
             Log::info('File upload details:', [
@@ -72,9 +70,12 @@ class DokumentasiTradisiController extends Controller
                 throw new Exception('Failed to store uploaded file');
             }
 
-            $dokumentasi->foto = $path;
-            $dokumentasi->save();
+            $dokumentasi->foto = $filename;
         }
+
+        $dokumentasi->save();
+
+        return redirect()->back()->with('success', 'Dokumentasi tradisi berhasil disimpan');
     }
 
 }

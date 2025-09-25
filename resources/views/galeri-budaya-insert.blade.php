@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tambah Dokumentasi Tradisi - EthnoGring</title>
+    <title>Tambah Galeri Budaya - EthnoGring</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
@@ -32,8 +32,8 @@
     <div class="admin-shell">
         <aside class="admin-sidebar">
             <div class="d-grid gap-2">
-                <a class="btn btn-outline-dark nav-btn" href="<?php echo e(url('/galeri-budaya-insert')); ?>">Galeri Budaya - Insert</a>
-                <a class="btn btn-dark nav-btn" href="<?php echo e(url('/dokumentasi-tradisi-insert')); ?>">Dokumentasi Tradisi - Insert</a>
+                <a class="btn btn-dark nav-btn" href="<?php echo e(url('/galeri-budaya-insert')); ?>">Galeri Budaya - Insert</a>
+                <a class="btn btn-outline-dark nav-btn" href="<?php echo e(url('/dokumentasi-tradisi-insert')); ?>">Dokumentasi Tradisi - Insert</a>
                 <form class="logout-form" method="POST" action="<?php echo e(route('logout')); ?>">
                     <?php echo csrf_field(); ?>
                     <button type="submit" class="btn btn-outline-danger w-100">Logout</button>
@@ -43,10 +43,10 @@
 
         <main>
             <div class="container mt-4">
-                <h2>Tambah Dokumentasi Tradisi</h2>
+                <h2>Tambah Galeri Budaya</h2>
                 <hr>
 
-                <form action="<?php echo e(route('dokumentasi-tradisi.store')); ?>" method="POST" enctype="multipart/form-data">
+                <form action="<?php echo e(route('galeri-budaya.store')); ?>" method="POST" enctype="multipart/form-data">
                     <?php echo csrf_field(); ?>
 
                     <div class="mb-3">
@@ -73,10 +73,10 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="link_dokumentasi" class="form-label">Link Dokumentasi (opsional)</label>
-                        <input type="url" name="link_dokumentasi" id="link_dokumentasi" class="form-control <?php echo e($errors->has('link_dokumentasi') ? 'is-invalid' : ''); ?>" value="<?php echo e(old('link_dokumentasi')); ?>" placeholder="https://contoh.com">
-                        <?php if($errors->has('link_dokumentasi')): ?>
-                            <div class="invalid-feedback"><?php echo e($errors->first('link_dokumentasi')); ?></div>
+                        <label for="isi_kegiatan" class="form-label">Isi Kegiatan</label>
+                        <textarea name="isi_kegiatan" id="isi_kegiatan" rows="4" class="form-control <?php echo e($errors->has('isi_kegiatan') ? 'is-invalid' : ''); ?>" placeholder="Tuliskan isi kegiatan"><?php echo e(old('isi_kegiatan')); ?></textarea>
+                        <?php if($errors->has('isi_kegiatan')): ?>
+                            <div class="invalid-feedback"><?php echo e($errors->first('isi_kegiatan')); ?></div>
                         <?php endif; ?>
                     </div>
 

@@ -13,7 +13,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'regex:/^[A-Za-z]+$/'],
+            'name' => ['required', 'string', 'regex:/^[A-Za-z0-9_]+$/'],
             'password' => 'required|string'
         ], [
             'name.required' => 'Username is required.',
@@ -32,10 +32,15 @@ class LoginController extends Controller
             Log::info('Login failed: incorrect password', ['username' => $request->username]);
             return back()->withErrors(['name' => 'Invalid name or password'])->withInput();
         }
+
+        Auth::login($user, $request->boolean('remember'));
+        $request->session()->regenerate();
+
+        return redirect()->intended('/galeri-budaya-insert');
     }
 
     public function showLoginForm()
     {
-        return view('login');
+        return view('loginadmin');
     }
 }

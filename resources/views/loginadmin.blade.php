@@ -486,7 +486,7 @@
         
         <!-- Logo -->
         <div class="logo">
-            <img src="{{ asset('images/logo.svg') }}" alt="EtnhoGring Logo" class="logo-image">
+            <img src="<?php echo e(asset('images/logo.svg')); ?>" alt="EtnhoGring Logo" class="logo-image">
             EtnhoGring
         </div>
     </div>
@@ -495,16 +495,16 @@
     <aside id="sidebar" class="sidebar" aria-hidden="true">
         <div class="sidebar-inner">
             <div class="sidebar-list">
-                <div class="sidebar-item" onclick="window.location.href='{{ url('/') }}'">
-                    <img src="{{ asset('images/logo.svg') }}" alt="Dashboard Utama">
+                <div class="sidebar-item" onclick="window.location.href='<?php echo e(url('/')); ?>'">
+                    <img src="<?php echo e(asset('images/logo.svg')); ?>" alt="Dashboard Utama">
                     <span>Dashboard Utama</span>
                 </div>
-                <div class="sidebar-item" onclick="window.location.href='{{ route('galeri.budaya') }}'">
-                    <img src="{{ asset('images/galerilogo_budaya.png') }}" alt="Galeri Budaya">
+                <div class="sidebar-item" onclick="window.location.href='<?php echo e(route('galeri.budaya')); ?>'">
+                    <img src="<?php echo e(asset('images/galerilogo_budaya.png')); ?>" alt="Galeri Budaya">
                     <span>Galeri Budaya</span>
                 </div>
-                <div class="sidebar-item" onclick="window.location.href='{{ route('dokumentasi.tradisi') }}'">
-                    <img src="{{ asset('images/dokum_tradisi.png') }}" alt="Dokumentasi Tradisi">
+                <div class="sidebar-item" onclick="window.location.href='<?php echo e(route('dokumentasi.tradisi')); ?>'">
+                    <img src="<?php echo e(asset('images/dokum_tradisi.png')); ?>" alt="Dokumentasi Tradisi">
                     <span>Dokumentasi Tradisi</span>
                 </div>
             </div>
@@ -526,16 +526,16 @@
         <!-- Login container -->
         <div class="login-container">
             <div class="logo-container">
-                <img src="{{ asset('images/Ellipse 1.png') }}" alt="Ellipse 1" class="ellipse-1">
-                <img src="{{ asset('images/Ellipse 2.png') }}" alt="Ellipse 2" class="ellipse-2">
-                <img src="{{ asset('images/logo.svg') }}" alt="EtnhoGring Logo" class="welcome-logo">
+                <img src="<?php echo e(asset('images/Ellipse 1.png')); ?>" alt="Ellipse 1" class="ellipse-1">
+                <img src="<?php echo e(asset('images/Ellipse 2.png')); ?>" alt="Ellipse 2" class="ellipse-2">
+                <img src="<?php echo e(asset('images/logo.svg')); ?>" alt="EtnhoGring Logo" class="welcome-logo">
             </div>
             <div class="welcome-title">SELAMAT DATANG</div>
             <div class="welcome-subtitle">admin</div>
 
             <div class="form-container">
-                <form method="POST" action="#">
-                    @csrf
+                <form method="POST" action="<?php echo e(route('login.perform')); ?>">
+                    <?php echo csrf_field(); ?>
                     <div class="form-group">
                         <label for="name" class="form-label">Nama</label>
                         <input 
@@ -569,54 +569,6 @@
     </div>
 
     <script>
-        // Form submission handling
-        document.querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const name = document.getElementById('name').value;
-            const password = document.getElementById('password').value;
-            
-            // Simple validation
-            if (!name || !password) {
-                showMessage('error', 'Mohon lengkapi semua field!');
-                return;
-            }
-            
-            // Simulate login process
-            showMessage('success', 'Login berhasil! Mengalihkan ke dashboard admin...');
-            
-            // In a real application, you would handle the actual login logic here
-            setTimeout(() => {
-                alert('Fitur login admin akan segera tersedia!');
-            }, 2000);
-        });
-
-        function showMessage(type, message) {
-            // Remove existing messages
-            const existingMessage = document.querySelector('.error-message, .success-message');
-            if (existingMessage) {
-                existingMessage.remove();
-            }
-            
-            // Create new message
-            const messageDiv = document.createElement('div');
-            messageDiv.className = type === 'error' ? 'error-message' : 'success-message';
-            messageDiv.textContent = message;
-            
-            // Insert before form
-            const form = document.querySelector('form');
-            form.parentNode.insertBefore(messageDiv, form);
-            
-            // Auto remove after 5 seconds
-            setTimeout(() => {
-                if (messageDiv.parentNode) {
-                    messageDiv.remove();
-                }
-            }, 5000);
-        }
-
-
         // Toggle sidebar via hamburger (garis 3)
         (function() {
             const hamburgers = document.querySelectorAll('.header .hamburger');

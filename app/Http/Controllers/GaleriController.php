@@ -3,35 +3,33 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\GaleriBudaya;
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 class GaleriController extends Controller
 {
     public function index() {
-        return view('dokumentasi-tradisi-insert');
+        return view('galeri-budaya-insert');
     }
 
     public function getDokumentasiTradisi() {
-            $galeri = DokumentasiTradisi::orderBy('created_at', 'desc')->get();
+            // Placeholder: not used for galeri list here
             return response()->json([
-                'message' => 'Dokumentasi tradisi sukses diambil',
-                'galeri' => $galeri 
-            ]);
-            
+                'message' => 'Endpoint not implemented for galeri list'
+            ], 501);
     }
 
     public function store(Request $request) {
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
-            'jenis' => 'required|string|in:Tradisi,Budaya,Aktivitas,Travel',
-            'deskripsi' => 'required|text',
-            'link_dokumentasi' => 'nullable|string|max:255',
+            'jenis' => 'required|string|in:development,budaya,kolaborasi,aktivitas,umkm',
+            'isi_kegiatan' => 'required|string',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000' 
         ], [
             'jenis.required' => 'Jenis is required.',
             'jenis.string' => 'Jenis must be text.',
-            'jenis.in' => 'Jenis must be Tradisi, Budaya, Aktivitas, or Travel.',
-            'link_dokumentasi.string' => 'Link dokumentasi must be text.',
-            'link_dokumentasi.max' => 'Link dokumentasi cannot exceed 255 characters.',
+            'jenis.in' => 'Jenis must be one of: development, budaya, kolaborasi, aktivitas, umkm.',
             'judul.string' => 'Title must be text.',
             'judul.max' => 'Title cannot exceed 255 characters.',
             'foto.image' => 'File must be an image.',
@@ -40,14 +38,11 @@ class GaleriController extends Controller
         ]);
         
         $galeri = new GaleriBudaya();
-        $galeri->judul = $validated['judul'];
+        $galeri->title = $validated['judul'];
         $galeri->jenis = $validated['jenis'];
-        $galeri->deskripsi = $validated['deskripsi'];
-        $galeri->link_dokumentasi = $validated['link_dokumentasi'];
-        $galeri->foto = $validated['foto'];
+        $galeri->isi_kegiatan = $validated['isi_kegiatan'];
         
-        
-         if ($request->hasFile('foto')) {
+        if ($request->hasFile('foto')) {
             $file = $request->file('foto');
             
             Log::info('File upload details:', [
@@ -63,14 +58,17 @@ class GaleriController extends Controller
             }
             
             $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->move(public_path('images/news'), $filename);
+            $path = $file->move(public_path('images/gallery'), $filename);
             
             if (!$path) {
                 throw new Exception('Failed to store uploaded file');
             }
 
-            $dokumentasi->foto = $path;
-            $dokumentasi->save();
+            $galeri->foto = $filename;
         }
+
+        $galeri->save();
+
+        return redirect()->back()->with('success', 'Galeri berhasil disimpan');
     }
 }

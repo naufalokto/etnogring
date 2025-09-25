@@ -37,7 +37,7 @@
             .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 3px 8px rgba(0,0,0,0.07); }
             .card img { width: 100%; height: 260px; object-fit: cover; }
             .meta { display: flex; gap: 10px; margin: 6px 0; font-family: Roboto; }
-            .meta .tag { color: #333; font-size: 11px; font-weight: 700; }
+            .meta .tag { color: #333; font-size: 11px; font-weight: 700; text-transform: capitalize; }
             .meta .date { color: #999; font-size: 11px; font-weight: 500; }
             .card-title { color: #333; font-size: 20px; font-family: Raleway; font-weight: 700; line-height: 28px; }
         </style>
@@ -49,7 +49,7 @@
             <div class="hamburger"></div>
             <div class="hamburger"></div>
             <div class="logo">
-                <img src="{{ asset('images/logo.svg') }}" alt="EtnhoGring Logo" class="logo-image">
+                <img src="<?php echo e(asset('images/logo.svg')); ?>" alt="EtnhoGring Logo" class="logo-image">
                 EtnhoGring
             </div>
         </div>
@@ -57,16 +57,16 @@
         <aside id="sidebar" class="sidebar" aria-hidden="true">
             <div class="sidebar-inner">
                 <div class="sidebar-list">
-                    <div class="sidebar-item" onclick="window.location.href='{{ url('/') }}'">
-                        <img src="{{ asset('images/logo.svg') }}" alt="Dashboard Utama">
+                    <div class="sidebar-item" onclick="window.location.href='<?php echo e(url('/')); ?>'">
+                        <img src="<?php echo e(asset('images/logo.svg')); ?>" alt="Dashboard Utama">
                         <span>Dashboard Utama</span>
                     </div>
-                    <div class="sidebar-item" onclick="window.location.href='{{ route('galeri.budaya') }}'">
-                        <img src="{{ asset('images/galerilogo_budaya.png') }}" alt="Galeri Budaya">
+                    <div class="sidebar-item" onclick="window.location.href='<?php echo e(route('galeri.budaya')); ?>'">
+                        <img src="<?php echo e(asset('images/galerilogo_budaya.png')); ?>" alt="Galeri Budaya">
                         <span>Galeri Budaya</span>
                     </div>
-                    <div class="sidebar-item" onclick="window.location.href='{{ route('dokumentasi.tradisi') }}'">
-                        <img src="{{ asset('images/dokum_tradisi.png') }}" alt="Dokumentasi Tradisi">
+                    <div class="sidebar-item" onclick="window.location.href='<?php echo e(route('dokumentasi.tradisi')); ?>'">
+                        <img src="<?php echo e(asset('images/dokum_tradisi.png')); ?>" alt="Dokumentasi Tradisi">
                         <span>Dokumentasi Tradisi</span>
                     </div>
                 </div>
@@ -79,53 +79,17 @@
             <div class="subtitle">Konten kreativ desa, layanan desa, video edukasi, Info desa wisata Desa Tlemang, Kecamatan ngimbang, Kabupaten Lamongan Provinsi Jawa Timur </div>
 
             <div class="grid">
+                <?php $docs = \App\Models\DokumentasiTradisi::orderByDesc('created_at')->get(); ?>
+                <?php foreach ($docs as $doc): ?>
+                <?php $img = $doc->foto ? asset('images/news/'.basename($doc->foto)) : 'https://placehold.co/400x360'; ?>
                 <div class="card">
-                    <img src="https://placehold.co/400x360" alt="Card 1">
+                    <img src="<?php echo e($img); ?>" alt="Card">
                     <div style="padding:16px;">
-                        <div class="meta"><div class="tag">Travel</div><div class="date">13 March 2023</div></div>
-                        <div class="card-title">Desa Tlemang kini menjadi desa wisata menarik bagi masyarakat</div>
+                        <div class="meta"><div class="tag"><?php echo e($doc->jenis); ?></div><div class="date"><?php echo e(optional($doc->created_at)->format('d F Y')); ?></div></div>
+                        <div class="card-title"><?php echo e($doc->judul); ?></div>
                     </div>
                 </div>
-
-                <div class="card">
-                    <img src="https://placehold.co/400x360" alt="Card 2">
-                    <div style="padding:16px;">
-                        <div class="meta"><div class="tag">Aktivitas</div><div class="date">11 March 2023</div></div>
-                        <div class="card-title">Upacara Adat Medhak Sanggring penuh antusiasme warga</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <img src="https://placehold.co/400x360" alt="Card 3">
-                    <div style="padding:16px;">
-                        <div class="meta"><div class="tag">Tradisi</div><div class="date">8 Juli 2025</div></div>
-                        <div class="card-title">Upacara adat penggalian sumber mata air</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <img src="https://placehold.co/400x360" alt="Card 4">
-                    <div style="padding:16px;">
-                        <div class="meta"><div class="tag">Budaya</div><div class="date">10 March 2023</div></div>
-                        <div class="card-title">Kesakralan medhak sandrring menjadi daya tarik masyarakat</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <img src="https://placehold.co/400x360" alt="Card 5">
-                    <div style="padding:16px;">
-                        <div class="meta"><div class="tag">Tradisi</div><div class="date">14 April 2025</div></div>
-                        <div class="card-title">Medhak Nyanggring jadi sorotan Warga</div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <img src="https://placehold.co/400x360" alt="Card 6">
-                    <div style="padding:16px;">
-                        <div class="meta"><div class="tag">Budaya</div><div class="date">23 juni 2025</div></div>
-                        <div class="card-title">Penguatan Literasi digital bersama dosen UNESA</div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
 
