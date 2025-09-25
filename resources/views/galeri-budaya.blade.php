@@ -34,9 +34,11 @@
             .footer {
                 width: 100%;
                 background: white;
-                padding: 40px 20px;
+                padding: 60px 20px;
                 position: relative;
                 z-index: 10;
+                margin-top: 60px;
+                border-top: 1px solid rgba(0,0,0,0.08);
             }
 
             .footer-content {
@@ -100,6 +102,8 @@
                 .modal-body { padding: 15px; padding-bottom: 150px; }
                 .modal-header { padding: 15px; }
             }
+            /* Anchor offset so target is not hidden by header/footer */
+            .scroll-target { scroll-margin-top: 110px; scroll-margin-bottom: 180px; }
         </style>
     </head>
     <body>
@@ -134,7 +138,7 @@
         </aside>
         <div class="page-offset"></div>
 
-        <div style="width: 100%; height: 2700px; position: relative; background: #FAFAFA; overflow: hidden; padding-bottom: 200px;">
+        <div style="width: 100%; height: 2700px; position: relative; background: #FAFAFA; overflow: visible; padding-bottom: 360px;">
             <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; margin-bottom: 200px;">
                 <?php 
                     $highlightId = request('highlight');
@@ -144,9 +148,9 @@
                         $latest = \App\Models\GaleriBudaya::orderByDesc('created_at')->take(1)->first();
                     }
                 ?>
-                <div style="display:flex; gap:24px; align-items:center; color:#333333; font-family:Roboto; line-height:30px; margin-bottom:8px;">
+                <div id="item-<?php echo e($latest->id ?? 'latest'); ?>" class="scroll-target" style="display:flex; gap:24px; align-items:center; color:#333333; font-family:Roboto; line-height:30px; margin-bottom:8px;">
                     <div style="font-weight:700; font-size:20px; text-transform:uppercase;"><?php echo e(($latest->jenis ?? 'Budaya')); ?></div>
-                    <div style="color:#999999; font-weight:500; font-size:20px;"><?php echo e(optional($latest?->created_at)->format('d F Y') ?? '16 Maret 2024'); ?></div>
+                    <div style="color:#999999; font-weight:500; font-size:20px;"><?php echo e(($latest?->tanggal_kegiatan ? \Carbon\Carbon::parse($latest->tanggal_kegiatan)->format('d F Y') : optional($latest?->created_at)->format('d F Y')) ?? ''); ?></div>
                 </div>
                 <div style="margin-bottom:24px;">
                     <span style="color:#333333; font-size:48px; font-family:Raleway; font-style:italic; font-weight:400; line-height:63.98px;">Galeri Budaya</span>
@@ -173,12 +177,12 @@
                 </div>
 
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:60px;">
-                    <div style="color:#333333; font-size:48px; font-family:Raleway; font-weight:700; line-height:63.98px;">Pupolar Kegiatan</div>
+                    <div style="color:#333333; font-size:48px; font-family:Raleway; font-weight:700; line-height:63.98px;">Popular Kegiatan</div>
                     <a href="#" style="padding:16px 48px; background:#59C4D2; border-radius:8px; color:white; font-size:20px; font-family:Roboto; font-weight:700; line-height:30px; text-decoration:none;">View All</a>
                 </div>
 
                 <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:24px; margin-top:24px; margin-bottom: 200px;">
-                    <?php $items = \App\Models\GaleriBudaya::orderByDesc('created_at')->skip(1)->take(9)->get(); ?>
+                    <?php $items = \App\Models\GaleriBudaya::orderByDesc('created_at')->get(); ?>
                     <?php foreach ($items as $item): ?>
                     <?php
                         $imgUrl = 'https://placehold.co/405x322';
@@ -190,16 +194,16 @@
                             }
                         }
                     ?>
-                    <div style="background:white; border-radius:16px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.08);">
+                    <div id="item-<?php echo e($item->id); ?>" class="scroll-target" style="background:transparent; border-radius:0; overflow:visible; box-shadow:none;">
                         <img src="<?php echo e($imgUrl); ?>" style="width:100%; height:322px; object-fit:cover;" alt="Card" />
                         <div style="padding:16px;">
                             <div style="display:flex; gap:12px; margin-bottom:8px; font-family:Roboto;">
                                 <div style="color:#333333; font-size:12px; font-weight:700; text-transform:uppercase;"><?php echo e($item->jenis); ?></div>
-                                <div style="color:#999999; font-size:12px; font-weight:500;"><?php echo e(optional($item->created_at)->format('d F Y')); ?></div>
+                                <div style="color:#999999; font-size:12px; font-weight:500;"><?php echo e($item->tanggal_kegiatan ? \Carbon\Carbon::parse($item->tanggal_kegiatan)->format('d F Y') : optional($item->created_at)->format('d F Y')); ?></div>
                             </div>
                             <div style="color:#333333; font-size:24px; font-family:Raleway; font-weight:700; line-height:31.99px; text-transform:capitalize;"><?php echo e($item->title); ?></div>
                             <div style="margin-top:8px; color:#666666; font-size:16px; font-family:Roboto; font-weight:400; line-height:24px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical;"><?php echo e(Str::limit($item->isi_kegiatan, 160)); ?></div>
-                            <a href="?highlight=<?php echo e($item->id); ?>" style="margin-top:8px; color:#1A646D; font-size:18px; font-family:Roboto; font-weight:700; text-decoration:underline; cursor:pointer; display:block;">Read More...</a>
+                            <a href="?highlight=<?php echo e($item->id); ?>" style="margin-top:8px; color:#1A646D; font-size:18px; font-family:Roboto; font-weight:700; text-decoration:underline; line-height:27px; word-wrap:break-word; cursor:pointer; display:block;">Read More...</a>
                         </div>
                     </div>
                     <?php endforeach; ?>

@@ -19,19 +19,24 @@
             box-sizing: border-box;
         }
 
+        html, body { height: 100%; }
         body {
             font-family: 'Raleway', 'Poppins', 'Roboto', sans-serif;
             line-height: 1.6;
             color: #333333;
             overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Main Container */
         .main-container {
             width: 100%;
-            min-height: 100vh;
             position: relative;
             background: #2BA5B5;
+            flex: 1 0 auto;
+            padding-bottom: 0;
         }
 
         /* Background Elements */
@@ -463,18 +468,25 @@
             margin: 0 auto;
             padding: 50px 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
             position: relative;
             z-index: 10;
+            /* Extra breathing room so last row CTA isn't covered by footer */
+            margin-bottom: 140px;
         }
+        /* Align anchor scroll with fixed header and footer; tuned to Figma spacing */
+        .scroll-target { scroll-margin-top: 110px; scroll-margin-bottom: 180px; }
 
         .news-item {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: transparent;
+            border-radius: 0;
+            overflow: visible;
+            box-shadow: none;
             transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 430px;
         }
 
         .news-item:hover {
@@ -483,19 +495,27 @@
 
         .news-image {
             width: 100%;
-            height: 200px;
+            height: 322px;
             object-fit: cover;
+            flex-shrink: 0;
+            border-radius: 0;
         }
 
         .news-content {
-            padding: 20px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
         }
 
         .news-meta {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
-            margin-bottom: 15px;
+            gap: 12px;
+            margin-bottom: 8px;
+            font-family: Roboto;
         }
 
         .news-category {
@@ -503,9 +523,7 @@
             font-size: 12px;
             font-family: Roboto;
             font-weight: 700;
-            background: #f0f0f0;
-            padding: 4px 8px;
-            border-radius: 4px;
+            text-transform: uppercase;
         }
 
         .news-date {
@@ -517,29 +535,42 @@
 
         .news-title {
             color: #333333;
-            font-size: 18px;
+            font-size: 24px;
             font-family: Raleway;
             font-weight: 700;
-            line-height: 24px;
-            margin-bottom: 10px;
+            line-height: 31.99px;
+            margin-bottom: 0;
+            min-height: 48px; /* up to 2 lines */
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .news-description {
             color: #666666;
-            font-size: 14px;
+            font-size: 16px;
             font-family: Roboto;
             font-weight: 400;
-            line-height: 20px;
-            margin-bottom: 15px;
+            line-height: 24px;
+            margin-bottom: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 72px;
         }
 
         .news-read-more {
             color: #1A646D;
-            font-size: 14px;
+            font-size: 18px;
             font-family: Roboto;
             font-weight: 700;
             text-decoration: underline;
+            line-height: 27px;
+            word-wrap: break-word;
             cursor: pointer;
+            margin-top: auto; /* push to bottom */
         }
 
         .news-read-more:hover {
@@ -550,9 +581,11 @@
         .footer {
             width: 100%;
             background: white;
-            padding: 40px 20px;
+            padding: 80px 20px; /* make footer a bit taller */
             position: relative;
             z-index: 10;
+            margin-top: auto;
+            border-top: 1px solid rgba(0,0,0,0.08);
         }
 
         .footer-content {
@@ -948,11 +981,11 @@
                 <div class="news-content">
                     <div class="news-meta">
                         <div class="news-category"><?php echo e(ucfirst($item->jenis)); ?></div>
-                        <div class="news-date"><?php echo e(optional($item->created_at)->format('d F Y')); ?></div>
+                        <div class="news-date"><?php echo e($item->tanggal_kegiatan ? \Carbon\Carbon::parse($item->tanggal_kegiatan)->format('d F Y') : optional($item->created_at)->format('d F Y')); ?></div>
                     </div>
                     <div class="news-title"><?php echo e($item->title); ?></div>
                     <div class="news-description"><?php echo e(Str::limit($item->isi_kegiatan, 120)); ?></div>
-                    <a href="<?php echo e(route('galeri.budaya')); ?>?highlight=<?php echo e($item->id); ?>" class="news-read-more">Read More...</a>
+                    <a href="<?php echo e(route('galeri.budaya')); ?>#item-<?php echo e($item->id); ?>" class="news-read-more">Read More...</a>
                 </div>
             </div>
             <?php endforeach; ?>

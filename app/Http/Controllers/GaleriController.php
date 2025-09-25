@@ -24,6 +24,7 @@ class GaleriController extends Controller
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'jenis' => 'required|string|in:development,budaya,kolaborasi,aktivitas,umkm',
+            'tanggal_kegiatan' => 'nullable|date',
             'isi_kegiatan' => 'required|string',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif' 
         ], [
@@ -39,6 +40,7 @@ class GaleriController extends Controller
         $galeri = new GaleriBudaya();
         $galeri->title = $validated['judul'];
         $galeri->jenis = $validated['jenis'];
+        $galeri->tanggal_kegiatan = $validated['tanggal_kegiatan'] ?? null;
         $galeri->isi_kegiatan = $validated['isi_kegiatan'];
         
         if ($request->hasFile('foto')) {
