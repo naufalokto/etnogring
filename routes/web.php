@@ -40,3 +40,8 @@ Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 Route::get('/admin/login', function () {
     return view('loginadmin');
 })->name('admin.login');
+
+// Contact page (public)
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');

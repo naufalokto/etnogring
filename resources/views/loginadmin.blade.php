@@ -16,7 +16,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #2BA5B5;
+            background: linear-gradient(135deg, #59C4D2 0%, #2BA5B5 100%);
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -155,6 +155,9 @@
             box-shadow: 2px 10px 5px rgba(0, 0, 0, 0.20);
         }
 
+        /* Hide decorative elements to clean up background */
+        .bg-element-1, .bg-element-2, .bg-element-3, .bg-element-4, .bg-element-5 { display: none; }
+
         /* Spacer element to push content down */
         .header-spacer {
             height: 200px;
@@ -167,7 +170,7 @@
             width: 100%;
             min-height: 100vh;
             position: relative;
-            background: #2BA5B5;
+            background: transparent;
             padding-top: 0;
             padding-bottom: 40px;
             display: flex;
@@ -178,7 +181,7 @@
         .login-container {
             width: 100%;
             max-width: 500px;
-            background: #2BA5B5;
+            background: transparent;
             box-shadow: 7px 8px 54px rgba(124, 78, 228, 0.07);
             border-radius: 16px;
             margin: 0 auto;

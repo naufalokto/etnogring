@@ -142,10 +142,10 @@
 
         /* Hero section */
         .hero-section {
-            background: linear-gradient(135deg, #59C4D2 0%, #2BA5B5 100%);
+            background: transparent;
             padding: 60px 0 80px 0;
             text-align: center;
-            color: white;
+            color: inherit;
             position: relative;
             overflow: hidden;
         }
@@ -192,8 +192,15 @@
             padding: 0 20px;
         }
 
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
         .stat-card {
-            background: #F53636;
+            background: #DBEF59;
             border-radius: 10px;
             padding: 20px;
             text-align: center;
@@ -204,7 +211,7 @@
             justify-content: center;
         }
 
-        .stat-card:nth-child(2) { background: #596BD2; }
+        .stat-item:nth-child(2) .stat-card { background: #596BD2; }
 
         .stat-number {
             font-family: 'Raleway', sans-serif;
@@ -215,12 +222,16 @@
             margin-bottom: 10px;
         }
 
-        .stat-label {
+        .stat-label { display: none; }
+
+        .stat-caption {
             font-family: 'Raleway', sans-serif;
-            font-size: 25px;
-            font-weight: 700;
-            line-height: 37.50px;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 20px;
             color: #1A646D;
+            text-transform: uppercase;
+            opacity: 0.85;
         }
 
         /* Form section */
@@ -239,6 +250,18 @@
             line-height: 50px;
             color: white;
             margin-bottom: 30px;
+        }
+
+        .form-required-note {
+            background: rgba(255,255,255,0.9);
+            color: #1A646D;
+            border-left: 4px solid #1A646D;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
         }
 
         .form-group {
@@ -346,6 +369,13 @@
             font-weight: 400;
             color: #FF0000;
             margin-top: 5px;
+        }
+
+        .field-error {
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            color: #FF0000;
+            margin-top: 6px;
         }
 
         .form-buttons {
@@ -592,27 +622,24 @@
                 <div class="container">
                     <h1 class="hero-title">SISTEM PENGARSIPAN DAN ADMINISTRASI DESA</h1>
                     <p class="hero-subtitle">Pengelolaan data, kearsipan dokumentasi kegiatan Medhak Sanggring,<br/>Desa Tlemang, Kecamatan Ngimbang, Kabupaten Lamongan,<br/>Provinsi Jawa Timur</p>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h2 class="hero-title">Data Base<br/>Kearsipan Desa Wisata</h2>
-                        </div>
-                        <div class="col-md-6 text-end">
-                            <p class="hero-tagline">Maju Bersama Digitalisasi</p>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
 
             <!-- Stats Section -->
             <div class="stats-section">
                 <div class="stats-container">
-                    <div class="stat-card">
-                        <div class="stat-number">{{ \App\Models\GaleriBudaya::count() }}</div>
-                        <div class="stat-label">Konten Galeri Budaya</div>
+                    <div class="stat-item">
+                        <div class="stat-card">
+                            <div class="stat-number">{{ \App\Models\GaleriBudaya::count() }}</div>
+                        </div>
+                        <div class="stat-caption">Galeri Budaya terpublish</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-number">{{ \App\Models\DokumentasiTradisi::count() }}</div>
-                        <div class="stat-label">Konten Dokumentasi Tradisi</div>
+                    <div class="stat-item">
+                        <div class="stat-card">
+                            <div class="stat-number">{{ \App\Models\DokumentasiTradisi::count() }}</div>
+                        </div>
+                        <div class="stat-caption">Dokumentasi Tradisi terpublish</div>
                     </div>
                 </div>
             </div>
@@ -621,20 +648,21 @@
             <div class="form-section">
                 <div class="container">
                     <h2 class="form-title">Form Galeri Budaya</h2>
+                    <div class="form-required-note">Field wajib diisi: Judul, Jenis, Isi Ringkas Kegiatan, dan (opsional) Tanggal Kegiatan serta Gambar untuk tampilan lebih baik.</div>
 
                 <form action="<?php echo e(route('galeri-budaya.store')); ?>" method="POST" enctype="multipart/form-data">
                     <?php echo csrf_field(); ?>
 
                         <div class="form-group">
-                            <label for="judul" class="form-label">Judul Kegiatan [Heading]</label>
+                            <label for="judul" class="form-label required">Judul Kegiatan [Heading]</label>
                             <input type="text" name="judul" id="judul" class="form-input <?php echo e($errors->has('judul') ? 'is-invalid' : ''); ?>" value="<?php echo e(old('judul')); ?>" required>
                         <?php if($errors->has('judul')): ?>
-                            <div class="invalid-feedback"><?php echo e($errors->first('judul')); ?></div>
+                            <div class="field-error"><?php echo e($errors->first('judul')); ?></div>
                         <?php endif; ?>
                     </div>
 
                         <div class="form-group">
-                        <label for="jenis" class="form-label">Jenis</label>
+                        <label for="jenis" class="form-label required">Jenis</label>
                         <select name="jenis" id="jenis" class="form-select <?php echo e($errors->has('jenis') ? 'is-invalid' : ''); ?>" required>
                                 <option value="" disabled selected>-Pilih-</option>
                             <option value="development" <?php echo e(old('jenis') == 'development' ? 'selected' : ''); ?>>development</option>
@@ -644,7 +672,7 @@
                             <option value="umkm" <?php echo e(old('jenis') == 'umkm' ? 'selected' : ''); ?>>umkm</option>
                         </select>
                         <?php if($errors->has('jenis')): ?>
-                            <div class="invalid-feedback"><?php echo e($errors->first('jenis')); ?></div>
+                            <div class="field-error"><?php echo e($errors->first('jenis')); ?></div>
                         <?php endif; ?>
                     </div>
 
@@ -657,10 +685,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="isi_kegiatan" class="form-label">Isi Ringkas Kegiatan</label>
-                            <textarea name="isi_kegiatan" id="isi_kegiatan" class="form-textarea <?php echo e($errors->has('isi_kegiatan') ? 'is-invalid' : ''); ?>" placeholder="Tuliskan artikel selengkapnya disini !"><?php echo e(old('isi_kegiatan')); ?></textarea>
+                            <label for="isi_kegiatan" class="form-label required">Isi Ringkas Kegiatan</label>
+                            <textarea name="isi_kegiatan" id="isi_kegiatan" class="form-textarea <?php echo e($errors->has('isi_kegiatan') ? 'is-invalid' : ''); ?>" placeholder="Tuliskan artikel selengkapnya disini !" required><?php echo e(old('isi_kegiatan')); ?></textarea>
                         <?php if($errors->has('isi_kegiatan')): ?>
-                            <div class="invalid-feedback"><?php echo e($errors->first('isi_kegiatan')); ?></div>
+                            <div class="field-error"><?php echo e($errors->first('isi_kegiatan')); ?></div>
                         <?php endif; ?>
                     </div>
 
@@ -670,9 +698,9 @@
                                 <label for="foto" class="file-upload-btn">Pilih File</label>
                                 <span class="file-info" id="file-info">tidak ada file yang dipilih</span>
                             </div>
-                            <input type="file" name="foto" id="foto" class="form-control <?php echo e($errors->has('foto') ? 'is-invalid' : ''); ?>" accept="image/*" style="display: none;">
+                            <input type="file" name="foto" id="foto" class="form-control <?php echo e($errors->has('foto') ? 'is-invalid' : ''); ?>" accept="image/*" style="display: none;" required>
                         <?php if($errors->has('foto')): ?>
-                            <div class="invalid-feedback"><?php echo e($errors->first('foto')); ?></div>
+                            <div class="file-error"><?php echo e($errors->first('foto')); ?></div>
                         <?php endif; ?>
                     </div>
 
@@ -742,26 +770,45 @@
             }
         });
 
-        // Form validation
-        document.querySelector('form').addEventListener('submit', function(e) {
-            const requiredFields = ['judul', 'jenis', 'isi_kegiatan'];
-            let isValid = true;
-            
-            requiredFields.forEach(function(fieldName) {
-                const field = document.querySelector(`[name="${fieldName}"]`);
-                if (!field.value.trim()) {
-                    isValid = false;
-                    field.style.borderColor = '#FF0000';
-                } else {
-                    field.style.borderColor = '';
+        // Form validation with inline messages
+        (function() {
+            const form = document.querySelector('form');
+            function clearErrors() {
+                form.querySelectorAll('.field-error').forEach(el => el.remove());
+            }
+            function showError(field, message) {
+                field.style.borderColor = '#FF0000';
+                const err = document.createElement('div');
+                err.className = 'field-error';
+                err.textContent = message;
+                if (field.parentElement) {
+                    field.parentElement.appendChild(err);
+                }
+            }
+            form.addEventListener('submit', function(e) {
+                clearErrors();
+                let firstInvalid = null;
+                let valid = true;
+                const judul = form.querySelector('[name="judul"]');
+                const jenis = form.querySelector('[name="jenis"]');
+                const isi = form.querySelector('[name="isi_kegiatan"]');
+                const foto = form.querySelector('[name="foto"]');
+
+                [judul, jenis, isi, foto].forEach((field) => { if (field) field.style.borderColor = ''; });
+
+                if (!judul.value.trim()) { valid = false; firstInvalid = firstInvalid || judul; showError(judul, 'Wajib diisi'); }
+                if (!jenis.value.trim()) { valid = false; firstInvalid = firstInvalid || jenis; showError(jenis, 'Wajib diisi'); }
+                if (!isi.value.trim())   { valid = false; firstInvalid = firstInvalid || isi;   showError(isi, 'Wajib diisi'); }
+                if (!foto.files || !foto.files.length) { valid = false; firstInvalid = firstInvalid || foto; showError(foto, 'Gambar wajib diisi'); }
+
+                if (!valid) {
+                    e.preventDefault();
+                    if (firstInvalid && typeof firstInvalid.scrollIntoView === 'function') {
+                        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
                 }
             });
-            
-            if (!isValid) {
-                e.preventDefault();
-                alert('Mohon lengkapi semua field yang wajib diisi');
-            }
-        });
+        })();
     </script>
 </body>
 </html>

@@ -174,39 +174,43 @@
 
         .hero-title-desa {
             color: #292929;
-            font-size: 60.90px;
+            font-size: 36px;
             font-family: Poppins;
             font-weight: 800;
-            line-height: 79.20px;
+            line-height: 46px;
             word-wrap: break-word;
         }
 
         .hero-title-tlemang {
             color: #FDC937;
-            font-size: 60.90px;
+            font-size: 36px;
             font-family: Poppins;
             font-weight: 800;
-            line-height: 79.20px;
+            line-height: 46px;
             word-wrap: break-word;
         }
 
         .hero-title-kecamatan {
             color: #292929;
-            font-size: 60.90px;
+            font-size: 36px;
             font-family: Poppins;
             font-weight: 800;
-            line-height: 79.20px;
+            line-height: 46px;
             word-wrap: break-word;
         }
 
         .hero-description {
             color: #1C1C1C;
-            font-size: 23.50px;
+            font-size: 20px;
             font-family: Poppins;
-            font-weight: 400;
-            line-height: 37.66px;
-            max-width: 800px;
-            margin-bottom: 30px;
+            font-weight: 600;
+            line-height: 32px;
+            max-width: 1000px;
+            margin-bottom: 24px;
+            text-align: justify;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .hero-button {
@@ -219,6 +223,8 @@
             display: inline-flex;
             justify-content: center;
             align-items: center;
+            text-decoration: none;
+            color: inherit;
         }
 
         .hero-button:hover {
@@ -470,14 +476,24 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 50px 20px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex; /* single horizontal line */
             gap: 24px;
             position: relative;
             z-index: 10;
-            /* Extra breathing room so last row CTA isn't covered by footer */
-            margin-bottom: 140px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x proximity;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* hide scrollbar in Firefox */
+            padding-bottom: 100px; /* more room so Read More not clipped */
+            margin-top: 0; /* remove spacer above */
+            margin-bottom: 100px; /* extra spacing before footer */
         }
+
+        /* Hide scrollbar in WebKit browsers */
+        .news-section::-webkit-scrollbar { height: 0; }
+        .news-section::-webkit-scrollbar-track { background: transparent; }
+        .news-section::-webkit-scrollbar-thumb { background: transparent; border-radius: 0; }
         /* Align anchor scroll with fixed header and footer; tuned to Figma spacing */
         .scroll-target { scroll-margin-top: 110px; scroll-margin-bottom: 180px; }
 
@@ -489,7 +505,9 @@
             transition: transform 0.3s ease;
             display: flex;
             flex-direction: column;
-            height: 430px;
+            height: 480px; /* taller so description + Read More always visible */
+            flex: 0 0 360px; /* fixed card width for one-line scroll */
+            scroll-snap-align: start;
         }
 
         .news-item:hover {
@@ -872,6 +890,10 @@
                         <img src="{{ asset('images/dokum_tradisi.png') }}" alt="Dokumentasi Tradisi">
                         <span>Dokumentasi Tradisi</span>
                     </div>
+                    <div class="sidebar-item" onclick="window.location.href='{{ route('contact') }}'">
+                        <img src="{{ asset('images/logo.svg') }}" alt="Contact">
+                        <span>Contact Us</span>
+                    </div>
                     <div class="sidebar-item" onclick="window.location.href='{{ route('admin.login') }}'">
                         <img src="{{ asset('images/logo.svg') }}" alt="Admin Login">
                         <span>Admin Login</span>
@@ -892,19 +914,18 @@
                     
                     <div class="hero-main-title">
                         <div class="hero-title-text">
-                            <span class="hero-title-desa">Desa </span>
-                            <span class="hero-title-tlemang">Tlemang<br/></span>
+                            <span class="hero-title-desa">Desa </span><span class="hero-title-tlemang">Tlemang</span><br/>
                             <span class="hero-title-kecamatan">Kecamatan Ngimbang </span>
                         </div>
                     </div>
                     
                     <div class="hero-description">
-                        Desa Tlemang, Kecamatan Ngimbang, Kabupaten Lamongan dikenal sebagai desa yang kaya akan budaya dan warisan leluhur. Salah satu potensi unggulannya adalah mendhak sanggring, yang telah diakui sebagai ikon desa wisata oleh UNICEF. Tradisi budaya memasak sayur pakis yang dilakukan oleh para lelaki desa yang masih lestari menjadi daya tarik edukatif dan budaya bagi wisatawan lokal maupun mancanegara.
+                        Desa Tlemang, Kecamatan Ngimbang, Kabupaten Lamongan dikenal sebagai desa yang kaya akan budaya dan warisan leluhur. Salah satu potensi unggulannya adalah mendhak sanggring, tradisi ini telah ditetapkan sebagai Warisan Budaya Tak Benda (WBTB) Nasional pada tahun 2013, yang menegaskan posisinya sebagai bagian dari warisan budaya Indonesia. Tradisi budaya memasak sayur pakis yang dilakukan oleh para lelaki desa yang masih lestari menjadi daya tarik edukatif dan budaya bagi wisatawan lokal maupun mancanegara.
                     </div>
                     
-                    <div class="hero-button">
+                    <a class="hero-button" href="{{ route('galeri.budaya') }}">
                         <div class="hero-button-text">Ketahui Lebih Lanjut</div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -934,14 +955,14 @@
         <!-- Content Section -->
         <div class="content-section">
             <div class="content-image-box">
-                <img class="content-image" src="{{ asset('images/tentang_desa.jpg') }}" alt="Desa Tlemang">
+                <img class="content-image" src="{{ asset('images/tentangdesa.jpg') }}" alt="Desa Tlemang">
                 <div class="content-overlay">
                     <div class="content-title">
                         <span class="content-title-italic">Galeri Budaya<br/></span>
                         <span class="content-title-normal">Desa Tlemang Kecamatan Ngimbang</span>
                     </div>
                     <div class="content-description">
-                        E-Layanan adalah sistem pelayanan berbasis digital yang memungkinkan masyarakat mengakses berbagai layanan administrasi desa secara mudah, cepat, dan transparan
+                        Galeri Budaya merupakan penguatan branding desa wisata untuk memberikan edukasi kepada pengunjung. Tradisi Mendhak Nyanggring telah ditetapkan sebagai Warisan Budaya Tak Benda Nasional pada tahun 2013.
                     </div>
                     <div class="content-date">20 Juni 2025</div>
                     <div class="content-overlay-btn">
@@ -976,11 +997,11 @@
 
         <!-- News Section -->
         <div class="news-section">
-            <?php $galeriItems = \App\Models\GaleriBudaya::orderByDesc('created_at')->take(3)->get(); ?>
+            <?php $galeriItems = \App\Models\GaleriBudaya::orderByDesc('created_at')->get(); ?>
             <?php foreach ($galeriItems as $item): ?>
             <?php $img = $item->foto ? asset('images/gallery/'.basename($item->foto)) : 'https://placehold.co/405x322'; ?>
-            <div class="news-item">
-                <img class="news-image" src="<?php echo e($img); ?>" alt="<?php echo e($item->title); ?>">
+            <div class="news-item" onclick="window.location.href='<?php echo e(route('galeri.budaya')); ?>?highlight=<?php echo e($item->id); ?>#item-<?php echo e($item->id); ?>'" style="cursor:pointer;" role="link" tabindex="0">
+                <img class="news-image" src="<?php echo e($img); ?>" alt="<?php echo e($item->title); ?>" style="pointer-events:none;">
                 <div class="news-content">
                     <div class="news-meta">
                         <div class="news-category"><?php echo e(ucfirst($item->jenis)); ?></div>
@@ -988,7 +1009,7 @@
                     </div>
                     <div class="news-title"><?php echo e($item->title); ?></div>
                     <div class="news-description"><?php echo e(Str::limit($item->isi_kegiatan, 120)); ?></div>
-                    <a href="<?php echo e(route('galeri.budaya')); ?>#item-<?php echo e($item->id); ?>" class="news-read-more">Read More...</a>
+                    <a href="<?php echo e(route('galeri.budaya')); ?>?highlight=<?php echo e($item->id); ?>#item-<?php echo e($item->id); ?>" class="news-read-more">Read More...</a>
                 </div>
             </div>
             <?php endforeach; ?>
@@ -1003,10 +1024,10 @@
                 </div>
                 
                 <div class="footer-social">
-                    <div class="social-icon">FB</div>
-                    <div class="social-icon">IG</div>
-                    <div class="social-icon">LN</div>
-                    <div class="social-icon">YT</div>
+                    <a href="https://x.com/desatlemang?s=21" class="social-icon" target="_blank" rel="noopener noreferrer">X</a>
+                    <a href="https://www.facebook.com/share/16gb6wx9da/?mibextid=wwXIfr" class="social-icon" target="_blank" rel="noopener noreferrer">FB</a>
+                    <a href="https://www.tiktok.com/@desa.tlemang?_t=ZS-8zlSGY10mZ8&_r=1" class="social-icon" target="_blank" rel="noopener noreferrer">TT</a>
+                    <a href="https://www.instagram.com/desa.tlemang?igsh=MmlpMXU1Ym1wZXVp&utm_source=qr" class="social-icon" target="_blank" rel="noopener noreferrer">IG</a>
                 </div>
                 
                 <div class="footer-copyright">© 2025. All Right Reserved</div>
@@ -1037,12 +1058,7 @@
             });
         });
         
-        // Add click handlers for buttons
-        document.querySelectorAll('.hero-button').forEach(button => {
-            button.addEventListener('click', function() {
-                alert('Fitur "Ketahui Lebih Lanjut" akan segera tersedia!');
-            });
-        });
+        // hero-button navigates via anchor link; no JS needed
         
         // gallery-button now uses anchor links; no JS needed
         

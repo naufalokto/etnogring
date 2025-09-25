@@ -28,16 +28,18 @@ class DokumentasiTradisiController extends Controller
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'jenis' => 'required|string|in:development,budaya,kolaborasi,aktivitas,umkm',
-            'link_dokumentasi' => 'nullable|string|max:255',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif' 
+            'link_dokumentasi' => 'required|string|max:255',
+            'foto' => 'required|image|mimes:jpeg,png,jpg,gif' 
         ], [
             'jenis.required' => 'Jenis is required.',
             'jenis.string' => 'Jenis must be text.',
             'jenis.in' => 'Jenis must be one of: development, budaya, kolaborasi, aktivitas, umkm.',
+            'link_dokumentasi.required' => 'Link dokumentasi wajib diisi.',
             'link_dokumentasi.string' => 'Link dokumentasi must be text.',
             'link_dokumentasi.max' => 'Link dokumentasi cannot exceed 255 characters.',
             'judul.string' => 'Title must be text.',
             'judul.max' => 'Title cannot exceed 255 characters.',
+            'foto.required' => 'Gambar wajib diisi.',
             'foto.image' => 'File must be an image.',
             'foto.mimes' => 'Image must be in JPEG, PNG, JPG, or GIF format.',
         ]);

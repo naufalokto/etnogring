@@ -136,6 +136,10 @@
                         <img src="<?php echo e(asset('images/dokum_tradisi.png')); ?>" alt="Dokumentasi Tradisi">
                         <span>Dokumentasi Tradisi</span>
                     </div>
+                    <div class="sidebar-item" onclick="window.location.href='<?php echo e(route('contact')); ?>'">
+                        <img src="<?php echo e(asset('images/logo.svg')); ?>" alt="Contact">
+                        <span>Contact Us</span>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -176,10 +180,10 @@
                 </div>
                 
                 <div class="footer-social">
-                    <div class="social-icon">FB</div>
-                    <div class="social-icon">IG</div>
-                    <div class="social-icon">LN</div>
-                    <div class="social-icon">YT</div>
+                    <a href="https://x.com/desatlemang?s=21" class="social-icon" target="_blank" rel="noopener noreferrer">X</a>
+                    <a href="https://www.facebook.com/share/16gb6wx9da/?mibextid=wwXIfr" class="social-icon" target="_blank" rel="noopener noreferrer">FB</a>
+                    <a href="https://www.tiktok.com/@desa.tlemang?_t=ZS-8zlSGY10mZ8&_r=1" class="social-icon" target="_blank" rel="noopener noreferrer">TT</a>
+                    <a href="https://www.instagram.com/desa.tlemang?igsh=MmlpMXU1Ym1wZXVp&utm_source=qr" class="social-icon" target="_blank" rel="noopener noreferrer">IG</a>
                 </div>
                 
                 <div class="footer-copyright">© 2025. All Right Reserved</div>

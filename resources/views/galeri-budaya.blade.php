@@ -120,6 +120,21 @@
             .container { max-width: 900px !important; padding-left: 16px !important; padding-right: 16px !important; }
             /* Center and narrow big justified paragraphs (isi kegiatan) */
             [style*="text-align:justify"][style*="font-size:30px"] { max-width: 860px; margin-left: auto; margin-right: auto; }
+
+            /* Popular Kegiatan: responsive grid and card sizing */
+            .popular-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 24px; margin-bottom: 200px; }
+            .popular-card { background: transparent; border-radius: 0; overflow: visible; box-shadow: none; }
+            .popular-img { width: 100%; height: 322px; object-fit: cover; border-radius: 0; }
+
+            @media (max-width: 1200px) {
+                .popular-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+                .popular-img { height: 260px; }
+            }
+
+            @media (max-width: 768px) {
+                .popular-grid { grid-template-columns: 1fr; }
+                .popular-img { height: 220px; }
+            }
         </style>
     </head>
     <body>
@@ -149,12 +164,16 @@
                         <img src="<?php echo e(asset('images/dokum_tradisi.png')); ?>" alt="Dokumentasi Tradisi">
                         <span>Dokumentasi Tradisi</span>
                     </div>
+                    <div class="sidebar-item" onclick="window.location.href='<?php echo e(route('contact')); ?>'">
+                        <img src="<?php echo e(asset('images/logo.svg')); ?>" alt="Contact">
+                        <span>Contact Us</span>
+                    </div>
                 </div>
             </div>
         </aside>
         <div class="page-offset"></div>
 
-        <div style="width: 100%; height: 2700px; position: relative; background: #FAFAFA; overflow: visible; padding-bottom: 360px;">
+        <div style="width: 100%; min-height: 100vh; position: relative; background: #FAFAFA; overflow: visible; padding-bottom: 360px;">
             <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; margin-bottom: 200px;">
                 <?php 
                     $highlightId = request('highlight');
@@ -170,7 +189,7 @@
                 </div>
                 <div style="margin-bottom:24px;">
                     <span style="color:#333333; font-size:48px; font-family:Raleway; font-style:italic; font-weight:400; line-height:63.98px;">Galeri Budaya</span>
-                    <span style="color:#333333; font-size:48px; font-family:Raleway; font-weight:700; line-height:63.98px;"> <?php echo e($latest ? ' -'.($latest->title ?? '') : ' -Desa Tlemang, melaksanakan kegiatan budaya Mendhak Sanggring: Tradisi Warisan Leluhur '); ?> </span>
+                    <span style="color:#333333; font-size:48px; font-family:Raleway; font-weight:700; line-height:63.98px;"> <?php echo e($latest ? ' -'.($latest->title ?? '') : ' -anda upload konten terlebih dahulu'); ?> </span>
                 </div>
                 <?php
                     $heroUrl = 'https://placehold.co/1193x583';
@@ -197,7 +216,7 @@
                     <a href="#" style="padding:16px 48px; background:#59C4D2; border-radius:8px; color:white; font-size:20px; font-family:Roboto; font-weight:700; line-height:30px; text-decoration:none;">View All</a>
                 </div>
 
-                <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:24px; margin-top:24px; margin-bottom: 200px;">
+                <div class="popular-grid">
                     <?php $items = \App\Models\GaleriBudaya::orderByDesc('created_at')->get(); ?>
                     <?php foreach ($items as $item): ?>
                     <?php
@@ -210,8 +229,8 @@
                             }
                         }
                     ?>
-                    <div id="item-<?php echo e($item->id); ?>" class="scroll-target" style="background:transparent; border-radius:0; overflow:visible; box-shadow:none;">
-                        <img src="<?php echo e($imgUrl); ?>" style="width:100%; height:322px; object-fit:cover;" alt="Card" />
+                    <div id="item-<?php echo e($item->id); ?>" class="scroll-target popular-card">
+                        <img src="<?php echo e($imgUrl); ?>" class="popular-img" alt="Card" />
                         <div style="padding:16px;">
                             <div style="display:flex; gap:12px; margin-bottom:8px; font-family:Roboto;">
                                 <div style="color:#333333; font-size:12px; font-weight:700; text-transform:uppercase;"><?php echo e($item->jenis); ?></div>
