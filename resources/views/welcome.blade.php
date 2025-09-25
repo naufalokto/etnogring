@@ -300,11 +300,13 @@
             gap: 10px;
             color: white;
             height: 40px;
+            text-decoration: none;
         }
 
         .gallery-button:hover {
             background: #258D9B;
             transform: translateY(-2px);
+            text-decoration: none;
         }
 
         .gallery-button-text {
@@ -315,6 +317,7 @@
             font-weight: 700;
             line-height: 28px;
             word-wrap: break-word;
+            text-decoration: none;
         }
 
         /* Content Section */
@@ -912,18 +915,18 @@
                 <img class="gallery-image" src="{{ asset('images/galeri_budaya.png') }}" alt="Galeri Budaya">
                 <div class="gallery-header">
                     <div class="gallery-title">Galeri Budaya</div>
-                    <div class="gallery-button">
+                    <a class="gallery-button" href="{{ route('galeri.budaya') }}">
                         <div class="gallery-button-text">Lanjutkan</div>
-                    </div>
+                    </a>
                 </div>
             </div>
             <div class="gallery-item">
                 <img class="gallery-image" src="{{ asset('images/dokumentasi_tradisi.png') }}" alt="Dokumentasi Tradisi">
                 <div class="gallery-header">
                     <div class="gallery-title">Dokumentasi Tradisi</div>
-                    <div class="gallery-button">
+                    <a class="gallery-button" href="{{ route('dokumentasi.tradisi') }}">
                         <div class="gallery-button-text">Lanjutkan</div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -1041,11 +1044,7 @@
             });
         });
         
-        document.querySelectorAll('.gallery-button').forEach(button => {
-            button.addEventListener('click', function() {
-                alert('Fitur galeri akan segera tersedia!');
-            });
-        });
+        // gallery-button now uses anchor links; no JS needed
         
         document.querySelectorAll('.content-button').forEach(button => {
             button.addEventListener('click', function() {

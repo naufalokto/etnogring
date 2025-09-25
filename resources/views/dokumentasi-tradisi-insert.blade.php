@@ -506,6 +506,30 @@
             .footer-title { font-size: 40px; }
             .contact-form { flex-direction: column; }
         }
+
+        /* Small-size UI overrides (exclude footer) */
+        .hero-title { font-size: 34px; line-height: 44px; }
+        .hero-subtitle { font-size: 18px; line-height: 26px; }
+        .hero-tagline { font-size: 24px; line-height: 32px; }
+        .stats-section { padding: 24px 0; }
+        .stat-number { font-size: 56px; line-height: 80px; }
+        .stat-label { font-size: 18px; line-height: 26px; }
+
+        .form-section { margin: 24px 16px; padding: 24px; }
+        .form-title { font-size: 28px; line-height: 36px; margin-bottom: 16px; }
+        .form-container { padding: 24px; }
+        .form-group { margin-bottom: 16px; }
+        .form-label { font-size: 16px; line-height: 22px; margin-bottom: 6px; }
+        .form-input { height: 40px; font-size: 16px; }
+        .form-select { height: 40px; font-size: 16px; }
+
+        .file-upload-container { gap: 12px; }
+        .file-upload-btn { width: 120px; height: 32px; padding: 6px 12px; font-size: 14px; border-radius: 10px; }
+        .file-info { font-size: 14px; }
+        .file-error { font-size: 14px; }
+
+        .form-buttons { gap: 12px; margin-top: 16px; }
+        .btn-save, .btn-cancel { padding: 6px 12px; font-size: 16px; border-radius: 6px; }
     </style>
 </head>
 <body>

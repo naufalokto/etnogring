@@ -104,6 +104,22 @@
             }
             /* Anchor offset so target is not hidden by header/footer */
             .scroll-target { scroll-margin-top: 110px; scroll-margin-bottom: 180px; }
+
+            /* Small-size UI overrides (exclude footer) */
+            .logo { font-size: 26px; }
+            .logo-image { width: 48px; height: 48px; }
+            .container { padding: 24px 16px; }
+            .scroll-target { scroll-margin-top: 90px; scroll-margin-bottom: 140px; }
+            /* Scale down headline and texts inside body content area */
+            [style*="font-size:48px"] { font-size: 34px !important; line-height: 44px !important; }
+            [style*="font-size:30px"] { font-size: 20px !important; line-height: 30px !important; }
+            [style*="font-size:20px"] { font-size: 16px !important; line-height: 24px !important; }
+            [style*="height:322px"] { height: 240px !important; }
+
+            /* Narrow main container to increase side spacing for image and isi kegiatan */
+            .container { max-width: 900px !important; padding-left: 16px !important; padding-right: 16px !important; }
+            /* Center and narrow big justified paragraphs (isi kegiatan) */
+            [style*="text-align:justify"][style*="font-size:30px"] { max-width: 860px; margin-left: auto; margin-right: auto; }
         </style>
     </head>
     <body>

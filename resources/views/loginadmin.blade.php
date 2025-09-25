@@ -474,6 +474,17 @@
                 font-size: 14px;
             }
         }
+
+        /* Small-size UI overrides (exclude footer; this page has no footer) */
+        .login-container { max-width: 460px; padding: 24px; }
+        .welcome-title { font-size: 24px; }
+        .welcome-subtitle { font-size: 18px; }
+        .form-container { padding: 20px; }
+        .form-group { margin-bottom: 14px; }
+        .form-label { font-size: 14px; margin-bottom: 6px; }
+        .form-input { height: 40px; font-size: 14px; }
+        .login-button { height: 40px; font-size: 14px; margin: 14px 0; }
+        .register-link span { font-size: 14px; }
     </style>
 </head>
 <body>
