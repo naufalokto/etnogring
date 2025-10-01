@@ -100,21 +100,21 @@
         <div class="contact-grid" style="margin-top: 24px;">
             <div class="contact-card">
                 <div class="contact-icon">
-                    <img src="<?php echo e(asset('images/frame.png')); ?>" alt="Office icon">
+                    <img src="<?php echo e(asset('images/Frame.png')); ?>" alt="Office icon">
                 </div>
                 <div class="contact-card-title">Office</div>
                 <div class="contact-card-text">Desa Tlemang Kecamatan Ngimbang</div>
             </div>
             <div class="contact-card">
                 <div class="contact-icon">
-                    <img src="<?php echo e(asset('images/frame(1).png')); ?>" alt="Email icon">
+                    <img src="<?php echo e(asset('images/Frame(1).png')); ?>" alt="Email icon">
                 </div>
                 <div class="contact-card-title">Email</div>
                 <div class="contact-card-text">desa.tlemang@gmail.com</div>
             </div>
             <div class="contact-card">
                 <div class="contact-icon">
-                    <img src="<?php echo e(asset('images/frame(2).png')); ?>" alt="Phone icon">
+                    <img src="<?php echo e(asset('images/Frame(2).png')); ?>" alt="Phone icon">
                 </div>
                 <div class="contact-card-title">Phone</div>
                 <div class="contact-card-text">081216612979</div>

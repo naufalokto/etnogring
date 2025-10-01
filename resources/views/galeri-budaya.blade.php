@@ -195,7 +195,8 @@
                     $heroUrl = 'https://placehold.co/1193x583';
                     if ($latest && $latest->foto) {
                         $basename = basename($latest->foto);
-                        $galleryPath = public_path('images/gallery/'.$basename);
+                        $galleryBase = rtrim(env('UPLOAD_BASE_PATH', public_path('images')), '/');
+                        $galleryPath = $galleryBase.'/gallery/'.$basename;
                         if (file_exists($galleryPath)) {
                             $heroUrl = asset('images/gallery/'.$basename);
                         }
@@ -223,7 +224,8 @@
                         $imgUrl = 'https://placehold.co/405x322';
                         if ($item->foto) {
                             $basename = basename($item->foto);
-                            $galleryPath = public_path('images/gallery/'.$basename);
+                            $galleryBase = rtrim(env('UPLOAD_BASE_PATH', public_path('images')), '/');
+                            $galleryPath = $galleryBase.'/gallery/'.$basename;
                             if (file_exists($galleryPath)) {
                                 $imgUrl = asset('images/gallery/'.$basename);
                             }

@@ -744,29 +744,45 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            /* Header & nav (kembalikan seperti sebelumnya) */
+            .header { height: 64px; }
             .hero-title-desa,
             .hero-title-tlemang,
             .hero-title-kecamatan {
-                font-size: 40px;
-                line-height: 50px;
+                font-size: 28px;
+                line-height: 36px;
             }
             
             .hero-description {
-                font-size: 18px;
-                line-height: 28px;
+                font-size: 16px;
+                line-height: 24px;
             }
             
+            .hero-section { padding: 96px 16px 32px; margin-top: 64px; }
+            .logo {
+                left: 64px;
+                top: 14px;
+                font-size: 22px;
+            }
+            .logo-image { width: 40px; height: 40px; }
+            .hamburger { left: 16px; width: 28px; height: 3px; top: 22px; }
+            .header .hamburger:nth-child(2) { top: 30px; }
+            .header .hamburger:nth-child(3) { top: 38px; }
+
+            /* Sidebar (samakan pola navigasi halaman lain, tapi untuk header 64px) */
+            .sidebar { width: 25vw; max-width: 420px; min-width: 280px; top: 64px; height: calc(100vh - 64px); padding-top: 12px; }
+
+            /* Gallery stacks */
             .gallery-section {
-                grid-template-columns: 1fr;
+                flex-direction: column;
+                padding: 32px 16px;
             }
-            
-            .news-section {
-                grid-template-columns: 1fr;
-            }
+            .gallery-item { min-width: 0; flex: 1 1 auto; }
+            .gallery-image { height: 180px; }
+            .gallery-title { font-size: 20px; }
             
             .logo {
-                left: 20px;
-                font-size: 24px;
+                font-size: 22px;
             }
             
             .contact-btn {
@@ -803,6 +819,18 @@
             .content-paragraph-justified {
                 color: #333333;
             }
+
+            /* News cards tune for viewport */
+            .news-section { padding: 32px 16px 80px; gap: 16px; }
+            .news-item { flex: 0 0 82%; height: auto; }
+            .news-image { height: 220px; }
+            .news-title { font-size: 20px; line-height: 28px; min-height: 0; }
+            .news-description { font-size: 14px; line-height: 20px; -webkit-line-clamp: 4; min-height: 0; }
+            .news-read-more { font-size: 16px; }
+
+            /* Footer spacing */
+            .footer { padding: 48px 16px; }
+            .footer-logo { font-size: 24px; }
         }
 
         /* Animation */
@@ -856,6 +884,12 @@
         .sidebar-item:hover { background: rgba(0,0,0,0.04); }
         .sidebar-item img { width: 42px; height: 42px; object-fit: contain; }
         .sidebar-item span { color: #333333; font-size: 16px; font-family: Raleway; font-weight: 600; line-height: 22px; }
+        
+        /* Ensure mobile sidebar sticks under 64px header (override placed after base) */
+        @media (max-width: 768px) {
+            .sidebar { top: 64px; height: calc(100vh - 64px); }
+        }
+
             </style>
     </head>
 <body>
@@ -999,7 +1033,14 @@
         <div class="news-section">
             <?php $galeriItems = \App\Models\GaleriBudaya::orderByDesc('created_at')->get(); ?>
             <?php foreach ($galeriItems as $item): ?>
-            <?php $img = $item->foto ? asset('images/gallery/'.basename($item->foto)) : 'https://placehold.co/405x322'; ?>
+            <?php
+                $basename = $item->foto ? basename($item->foto) : null;
+                $galleryBase = rtrim(env('UPLOAD_BASE_PATH', public_path('images')), '/');
+                $galleryPath = $basename ? $galleryBase.'/gallery/'.$basename : null;
+                $img = ($galleryPath && file_exists($galleryPath))
+                    ? asset('images/gallery/'.$basename)
+                    : 'https://placehold.co/405x322';
+            ?>
             <div class="news-item" onclick="window.location.href='<?php echo e(route('galeri.budaya')); ?>?highlight=<?php echo e($item->id); ?>#item-<?php echo e($item->id); ?>'" style="cursor:pointer;" role="link" tabindex="0">
                 <img class="news-image" src="<?php echo e($img); ?>" alt="<?php echo e($item->title); ?>" style="pointer-events:none;">
                 <div class="news-content">
@@ -1079,20 +1120,45 @@
         (function() {
             const hamburgers = document.querySelectorAll('.header .hamburger');
             const sidebar = document.getElementById('sidebar');
-            function toggleSidebar() {
+
+            function toggleSidebar(ev) {
+                if (ev) { ev.preventDefault(); ev.stopPropagation(); }
                 const opened = sidebar.classList.toggle('open');
                 sidebar.setAttribute('aria-hidden', opened ? 'false' : 'true');
             }
-            hamburgers.forEach(h => h.addEventListener('click', toggleSidebar));
 
-            // Close when clicking outside sidebar
-            document.addEventListener('click', (e) => {
-                const isHamburger = e.target.classList.contains('hamburger');
-                if (!isHamburger && !sidebar.contains(e.target) && sidebar.classList.contains('open')) {
+            function addTapListeners(element, handler) {
+                // Touch first for mobile responsiveness
+                element.addEventListener('touchstart', handler, { passive: false });
+                element.addEventListener('click', handler);
+            }
+
+            hamburgers.forEach(h => {
+                addTapListeners(h, toggleSidebar);
+                h.setAttribute('role', 'button');
+                h.setAttribute('tabindex', '0');
+                h.style.cursor = 'pointer';
+                h.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleSidebar(e);
+                    }
+                });
+            });
+
+            // Close when clicking/tapping outside sidebar
+            function handleOutside(ev) {
+                const target = ev.target;
+                const isHamburger = target.classList && target.classList.contains('hamburger');
+                const clickedInsideSidebar = sidebar.contains(target);
+                if (!isHamburger && !clickedInsideSidebar && sidebar.classList.contains('open')) {
+                    ev.preventDefault();
                     sidebar.classList.remove('open');
                     sidebar.setAttribute('aria-hidden', 'true');
                 }
-            });
+            }
+            document.addEventListener('touchstart', handleOutside, { passive: false });
+            document.addEventListener('click', handleOutside);
         })();
         
     </script>

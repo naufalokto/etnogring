@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\GaleriBudaya;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 use Exception;
 
 class GaleriController extends Controller
@@ -59,8 +60,14 @@ class GaleriController extends Controller
                 throw new Exception('File upload failed: ' . $file->getErrorMessage());
             }
             
+            $basePath = env('UPLOAD_BASE_PATH', public_path('images'));
+            $uploadPath = rtrim($basePath, '/').'/gallery';
+            if (!File::exists($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true);
+            }
+
             $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->move(public_path('images/gallery'), $filename);
+            $path = $file->move($uploadPath, $filename);
             
             if (!$path) {
                 throw new Exception('Failed to store uploaded file');

@@ -152,7 +152,14 @@
             <div class="grid" style="margin-bottom: 200px;">
                 <?php $docs = \App\Models\DokumentasiTradisi::orderByDesc('created_at')->get(); ?>
                 <?php foreach ($docs as $doc): ?>
-                <?php $img = $doc->foto ? asset('images/news/'.basename($doc->foto)) : 'https://placehold.co/400x360'; ?>
+                <?php
+                    $basename = $doc->foto ? basename($doc->foto) : null;
+                    $newsBase = rtrim(env('UPLOAD_BASE_PATH', public_path('images')), '/');
+                    $newsPath = $basename ? $newsBase.'/news/'.$basename : null;
+                    $img = ($newsPath && file_exists($newsPath))
+                        ? asset('images/news/'.$basename)
+                        : 'https://placehold.co/400x360';
+                ?>
                 <div class="card">
                     <img src="<?php echo e($img); ?>" alt="Card">
                     <div style="padding:16px;">
