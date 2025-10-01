@@ -20,6 +20,7 @@ Route::get('/galeri-budaya', function () {
 // Galeri Budaya (admin insert)
 Route::get('/galeri-budaya-insert',[GaleriController::class, 'index'])->middleware('auth');
 Route::post('/galeri-budaya-insert', [GaleriController::class, 'store'])->middleware('auth')->name('galeri-budaya.store');
+Route::delete('/galeri-budaya/{id}', [GaleriController::class, 'destroy'])->middleware('auth')->name('galeri-budaya.destroy');
 
 // Dokumentasi Tradisi (public page)
 Route::get('/dokumentasi-tradisi', function () {
@@ -29,6 +30,7 @@ Route::get('/dokumentasi-tradisi', function () {
 // Dokumentasi Tradisi (admin insert)
 Route::get('/dokumentasi-tradisi-insert',[DokumentasiTradisiController::class, 'index'])->middleware('auth');
 Route::post('/dokumentasi-tradisi-insert', [DokumentasiTradisiController::class, 'store'])->middleware('auth')->name('dokumentasi-tradisi.store');
+Route::delete('/dokumentasi-tradisi/{id}', [DokumentasiTradisiController::class, 'destroy'])->middleware('auth')->name('dokumentasi-tradisi.destroy');
 
 // Optional: JSON data endpoints (if needed by FE async)
 Route::get('/api/dokumentasi-tradisi', [DokumentasiTradisiController::class, 'getDokumentasiTradisi']);

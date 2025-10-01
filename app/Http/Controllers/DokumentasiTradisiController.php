@@ -85,4 +85,26 @@ class DokumentasiTradisiController extends Controller
         return redirect()->back()->with('success', 'Dokumentasi tradisi berhasil disimpan');
     }
 
+    public function destroy($id) {
+        try {
+            $dokumentasi = DokumentasiTradisi::findOrFail($id);
+            
+            // Delete associated file if exists
+            if ($dokumentasi->foto) {
+                $basePath = env('UPLOAD_BASE_PATH', public_path('images'));
+                $filePath = rtrim($basePath, '/').'/news/' . $dokumentasi->foto;
+                if (File::exists($filePath)) {
+                    File::delete($filePath);
+                }
+            }
+            
+            $dokumentasi->delete();
+            
+            return redirect()->back()->with('success', 'Dokumentasi tradisi berhasil dihapus');
+        } catch (Exception $e) {
+            Log::error('Error deleting dokumentasi tradisi: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal menghapus dokumentasi tradisi');
+        }
+    }
+
 }

@@ -80,4 +80,26 @@ class GaleriController extends Controller
 
         return redirect()->back()->with('success', 'Galeri berhasil disimpan');
     }
+
+    public function destroy($id) {
+        try {
+            $galeri = GaleriBudaya::findOrFail($id);
+            
+            // Delete associated file if exists
+            if ($galeri->foto) {
+                $basePath = env('UPLOAD_BASE_PATH', public_path('images'));
+                $filePath = rtrim($basePath, '/').'/gallery/' . $galeri->foto;
+                if (File::exists($filePath)) {
+                    File::delete($filePath);
+                }
+            }
+            
+            $galeri->delete();
+            
+            return redirect()->back()->with('success', 'Galeri budaya berhasil dihapus');
+        } catch (Exception $e) {
+            Log::error('Error deleting galeri budaya: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal menghapus galeri budaya');
+        }
+    }
 }

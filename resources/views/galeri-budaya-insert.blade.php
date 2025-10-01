@@ -573,6 +573,154 @@
 
         .form-buttons { gap: 12px; margin-top: 16px; }
         .btn-save, .btn-cancel { padding: 6px 12px; font-size: 16px; border-radius: 6px; }
+
+        /* Content Management Section */
+        .content-management-section {
+            background: #2BA5B5;
+            border-radius: 16px;
+            margin: 40px 20px;
+            padding: 40px;
+            position: relative;
+        }
+
+        .content-management-title {
+            font-family: 'Raleway', sans-serif;
+            font-size: 40px;
+            font-weight: 700;
+            line-height: 50px;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .content-management-note {
+            background: rgba(255,255,255,0.9);
+            color: #1A646D;
+            border-left: 4px solid #1A646D;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .content-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .content-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .content-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .content-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .content-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .content-title {
+            font-family: 'Raleway', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #333333;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .content-type {
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2BA5B5;
+            background: rgba(43, 165, 181, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 0;
+        }
+
+        .content-date {
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            color: #666666;
+            margin: 0;
+        }
+
+        .content-description {
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            color: #555555;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .content-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-delete {
+            background: #FF4444;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-family: 'Raleway', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn-delete:hover {
+            background: #CC3333;
+        }
+
+        .no-content {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+        }
+
+        .no-content p {
+            font-family: 'Roboto', sans-serif;
+            font-size: 18px;
+            color: #666666;
+            margin: 0;
+        }
+
+        /* Responsive for content management */
+        @media (max-width: 768px) {
+            .content-management-section { margin: 24px 16px; padding: 24px; }
+            .content-management-title { font-size: 28px; line-height: 36px; }
+            .content-item { flex-direction: column; text-align: center; }
+            .content-image { width: 100px; height: 100px; }
+            .content-title { font-size: 18px; }
+        }
     </style>
 </head>
 <body>
@@ -709,6 +857,50 @@
                             <button type="button" class="btn-cancel" onclick="history.back()">Batal</button>
                         </div>
                 </form>
+                </div>
+            </div>
+
+            <!-- Content Management Section -->
+            <div class="content-management-section">
+                <div class="container">
+                    <h2 class="content-management-title">Kelola Konten Galeri Budaya</h2>
+                    <div class="content-management-note">Hapus konten yang tidak diperlukan atau sudah tidak relevan.</div>
+                    
+                    <div class="content-list">
+                        @php
+                            $galeriList = \App\Models\GaleriBudaya::orderBy('created_at', 'desc')->get();
+                        @endphp
+                        
+                        @if($galeriList->count() > 0)
+                            @foreach($galeriList as $item)
+                                <div class="content-item">
+                                    <div class="content-image">
+                                        <img src="{{ asset('images/gallery/' . $item->foto) }}" alt="{{ $item->title }}" onerror="this.src='{{ asset('images/placeholder.jpg') }}'">
+                                    </div>
+                                    <div class="content-details">
+                                        <h3 class="content-title">{{ $item->title }}</h3>
+                                        <p class="content-type">{{ ucfirst($item->jenis) }}</p>
+                                        <p class="content-date">{{ $item->created_at }}</p>
+                                        @if($item->tanggal_kegiatan)
+                                            <p class="content-date">Tanggal Kegiatan: {{ \Carbon\Carbon::parse($item->tanggal_kegiatan)->format('d-m-Y') }}</p>
+                                        @endif
+                                        <p class="content-description">{{ Str::limit($item->isi_kegiatan, 100) }}</p>
+                                    </div>
+                                    <div class="content-actions">
+                                        <form action="{{ route('galeri-budaya.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus konten ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-delete">Hapus</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="no-content">
+                                <p>Belum ada konten galeri budaya.</p>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
 
